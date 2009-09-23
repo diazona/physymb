@@ -4,23 +4,21 @@
 % =================== Initialization section ====================
 
 \RequirePackage{ifthen}
-\newboolean{pquantum}
 \newboolean{pparticle}
 \newboolean{pfeynman}
 \newboolean{punits}
-\newboolean{beamer}
+\newboolean{pboldvectors}
 
 % ==================== Option declarations ======================
 
 % Various classes of symbols
-\DeclareOption{quantum}{\setboolean{pquantum}{true}}
 \DeclareOption{particle}{\setboolean{pparticle}{true}}
 \DeclareOption{units}{\setboolean{punits}{true}}
 % Feynman diagrams
-\DeclareOption{feynman}{\setboolean{usefeynman}{true}}
+\DeclareOption{feynman}{\setboolean{pfeynman}{true}}
 
-% adapt for compatibility with beamer
-\DeclareOption{beamer}{\setboolean{usebeamermode}{true}}
+\DeclareOption{arrowvectors}{\setboolean{pboldvectors}{false}}
+\DeclareOption{boldvectors}{\setboolean{pboldvectors}{true}}
 
 \ProcessOptions\relax
 
@@ -48,8 +46,14 @@
 
 \RequirePackage{accents}
 
+% for Griffiths'-style script r
+\RequirePackage{calligra}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+\newcommand{\scriptr}{\mathcalligra{r}}
+
 % scientific notation
-\newcommand{\sn}[1]{\ensuremath{\times10^{#1}}}
+\newcommand{\sn}[2]{\ensuremath{#1\times10^{#2}}}
 
 % SI units
 \ifthenelse{\boolean{punits}}
@@ -63,51 +67,18 @@
  \addunit{\amu}{amu}
  \addunit{\yr}{yr}
  \addunit{\erg}{erg}
- \addunit{\gauss}{gauss}
- \newcommand{\snunit}[3]{\ifthenelse{\equal{#1}{1}}{\unit{10^{#2}}{#3}}{\unit{#1\sn{#2}}{#3}}}
+ \addunit{\gauss}{Ga}
+ \addunit{\molar}{M}
+ \addunit{\poise}{P}
+ \addunit{\foot}{ft}
+ \addunit{\mileperhour}{mph}
+ \addunit{\pound}{lb}
+ \newcommand{\snunit}[3]{\ifthenelse{\equal{#1}{1}}{\unit{10^{#2}}{#3}}{\unit{\sn{#1}{#2}}{#3}}}
 }
 {}
 
 % Order of
-\newcommand{\orderof}[1]{\mathcal{O}(#1)}
-
-% Calculus:
-% differential character
-\newcommand{\udc}{\mathrm{d}}
-\newcommand{\uddc}{\mathrm{d}^2}
-\newcommand{\udddc}{\mathrm{d}^3}
-% partial differential character
-\newcommand{\pdc}{\partial}
-\newcommand{\pddc}{\partial^2}
-\newcommand{\pdddc}{\partial^3}
-% unified differential with space (for use in integrals)
-\newcommand{\uds}{\,\mathrm{d}}
-\newcommand{\udds}{\,\mathrm{d}^2}
-\newcommand{\uddds}{\,\mathrm{d}^3}
-% partial differential with space (for use in integrals)
-\newcommand{\pds}{\,\partial}
-\newcommand{\pdds}{\,\partial^2}
-\newcommand{\pddds}{\,\partial^3}
-% unified derivative
-\newcommand{\ud}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
-% unified derivative [of] derivative
-\newcommand{\udd}[2]{\frac{\mathrm{d}^2#1}{\mathrm{d} #2^2}}
-% unified derivative [of] derivative [of] derivative
-\newcommand{\uddd}[2]{\frac{\mathrm{d}^3#1}{\mathrm{d} #2^3}}
-% partial derivative
-\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
-% partial derivative [of] derivative
-\newcommand{\pdd}[2]{\frac{\partial^2#1}{\partial #2^2}}
-% partial derivative [of] derivative [of] derivative
-\newcommand{\pddd}[2]{\frac{\partial^3#1}{\partial #2^3}}
-% gradient - multidimensional derivative
-\newcommand{\grad}{\vec{\nabla}}
-% divergence (replace \div since we don't need the division symbol)
-\renewcommand{\div}{\vec{\nabla}\cdot}
-% curl
-\newcommand{\curl}{\vec{\nabla}\times}
-% Laplacian - multidimensional second derivative
-\newcommand{\lapl}{\nabla^2}
+\newcommand{\orderof}[1]{\ensuremath{\mathcal{O}(#1)}}
 
 % Functions:
 % trig
@@ -146,7 +117,9 @@
 % Poisson brackets with respect to specified variables
 \newcommand{\pbracvars}[4]{\left[#1,#2\right]_{#3,#4}}
 % vector
-\renewcommand{\vec}[1]{\accentset{\rightharpoonup}{#1}}
+\ifthenelse{\boolean{pboldvectors}}%
+ {\renewcommand{\vec}[1]{\mathbf{#1}}}%
+ {\renewcommand{\vec}[1]{\accentset{\rightharpoonup}{#1}}}
 % \renewcommand{\vec}[1]{\mathbf{#1}}
 % \renewcommand{\vec}[1]{\undertilde{#1}}
 \newcommand{\vecvar}[1]{\vec{#1}}
@@ -186,6 +159,44 @@
 \newcommand{\unitomega}{\hat{\omega}}
 % turn any coordinate into a unit vector
 \newcommand{\unitvec}[1]{\hat{#1}}
+
+% Calculus:
+% differential character
+\newcommand{\udc}{\mathrm{d}}
+\newcommand{\uddc}{\mathrm{d}^2}
+\newcommand{\udddc}{\mathrm{d}^3}
+% partial differential character
+\newcommand{\pdc}{\partial}
+\newcommand{\pddc}{\partial^2}
+\newcommand{\pdddc}{\partial^3}
+% unified differential with space (for use in integrals)
+\newcommand{\uds}{\,\mathrm{d}}
+\newcommand{\udds}{\,\mathrm{d}^2}
+\newcommand{\uddds}{\,\mathrm{d}^3}
+% partial differential with space (for use in integrals)
+\newcommand{\pds}{\,\partial}
+\newcommand{\pdds}{\,\partial^2}
+\newcommand{\pddds}{\,\partial^3}
+% unified derivative
+\newcommand{\ud}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+% unified derivative [of] derivative
+\newcommand{\udd}[2]{\frac{\mathrm{d}^2#1}{\mathrm{d} #2^2}}
+% unified derivative [of] derivative [of] derivative
+\newcommand{\uddd}[2]{\frac{\mathrm{d}^3#1}{\mathrm{d} #2^3}}
+% partial derivative
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+% partial derivative [of] derivative
+\newcommand{\pdd}[2]{\frac{\partial^2#1}{\partial #2^2}}
+% partial derivative [of] derivative [of] derivative
+\newcommand{\pddd}[2]{\frac{\partial^3#1}{\partial #2^3}}
+% gradient - multidimensional derivative
+\newcommand{\grad}{\vec{\nabla}}
+% divergence (replace \div since we don't need the division symbol)
+\renewcommand{\div}{\vec{\nabla}\cdot}
+% curl
+\newcommand{\curl}{\vec{\nabla}\times}
+% Laplacian - multidimensional second derivative
+\newcommand{\lapl}{\nabla^2}
 
 % complex conjugate of a value
 \newcommand{\conj}[1]{#1 ^{*}}
@@ -242,29 +253,29 @@
 \newcommand{\btaq}{\ensuremath{\bar{\mathrm{b}}}}
 \newcommand{\tpaq}{\ensuremath{\bar{\mathrm{t}}}}
 % leptons
-\newcommand{\elp}{\ensuremath{e^{-}}}
+\newcommand{\elp}{\ensuremath{e}}
 \newcommand{\enu}{\ensuremath{\nu_e}}
-\newcommand{\ulp}{\ensuremath{\mu^{-}}}
+\newcommand{\ulp}{\ensuremath{\mu}}
 \newcommand{\unu}{\ensuremath{\nu_{\mu}}}
-\newcommand{\tlp}{\ensuremath{\tau^{-}}}
+\newcommand{\tlp}{\ensuremath{\tau}}
 \newcommand{\tnu}{\ensuremath{\nu_{\tau}}}
 % antileptons
-\newcommand{\ealp}{\ensuremath{\bar{e}^{+}}}
+\newcommand{\ealp}{\ensuremath{\bar{e}}}
 \newcommand{\eanu}{\ensuremath{\bar{\nu}_e}}
-\newcommand{\ualp}{\ensuremath{\bar{\mu}^{+}}}
+\newcommand{\ualp}{\ensuremath{\bar{\mu}}}
 \newcommand{\uanu}{\ensuremath{\bar{\nu}_{\mu}}}
-\newcommand{\talp}{\ensuremath{\bar{\tau}^{+}}}
+\newcommand{\talp}{\ensuremath{\bar{\tau}}}
 \newcommand{\tanu}{\ensuremath{\bar{\nu}_{\tau}}}
 % hadrons
-\newcommand{\prhd}{\ensuremath{p^{+}}}
+\newcommand{\prhd}{\ensuremath{p}}
 \newcommand{\nehd}{\ensuremath{n}}
 % antihadrons
-\newcommand{\prahd}{\ensuremath{\bar{p}^{-}}}
+\newcommand{\prahd}{\ensuremath{\bar{p}}}
 \newcommand{\neahd}{\ensuremath{\bar{n}}}
 % mesons
-\newcommand{\pime}{\ensuremath{\pi^{+}}}
+\newcommand{\pime}{\ensuremath{\pi}}
 % antimesons
-\newcommand{\piame}{\ensuremath{\bar{\pi}^{+}}}
+\newcommand{\piame}{\ensuremath{\bar{\pi}}}
 
 % Feynman diagrams
 \ifthenelse{\boolean{pfeynman}}%
