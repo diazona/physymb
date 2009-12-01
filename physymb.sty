@@ -190,11 +190,11 @@
 % partial derivative [of] derivative [of] derivative
 \newcommand{\pddd}[2]{\frac{\partial^3#1}{\partial #2^3}}
 % gradient - multidimensional derivative
-\newcommand{\grad}{\vec{\nabla}}
+\newcommand{\grad}{\accentset{\rightharpoonup}{\nabla}}
 % divergence (replace \div since we don't need the division symbol)
-\renewcommand{\div}{\vec{\nabla}\cdot}
+\renewcommand{\div}{\grad\cdot}
 % curl
-\newcommand{\curl}{\vec{\nabla}\times}
+\newcommand{\curl}{\grad\times}
 % Laplacian - multidimensional second derivative
 \newcommand{\lapl}{\nabla^2}
 
@@ -219,9 +219,9 @@
 
 % Dirac notation
 % bra (conjugate quantum state)
-\newcommand{\bra}[1]{\langle #1 \rvert}
+\newcommand{\bra}[1]{\left\langle #1 \right\rvert}
 % ket (quantum state)
-\newcommand{\ket}[1]{\lvert #1 \rangle}
+\newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
 % bracket (inner product)
 \newcommand{\braket}[2]{\langle #1 \vert #2 \rangle}
 % matrix element
@@ -253,30 +253,68 @@
 \newcommand{\btaq}{\ensuremath{\bar{\mathrm{b}}}}
 \newcommand{\tpaq}{\ensuremath{\bar{\mathrm{t}}}}
 % leptons
-\newcommand{\elp}{\ensuremath{e}}
+\newcommand{\elp}{\ensuremath{e^-}}
 \newcommand{\enu}{\ensuremath{\nu_e}}
-\newcommand{\ulp}{\ensuremath{\mu}}
+\newcommand{\ulp}{\ensuremath{\mu^-}}
 \newcommand{\unu}{\ensuremath{\nu_{\mu}}}
-\newcommand{\tlp}{\ensuremath{\tau}}
+\newcommand{\tlp}{\ensuremath{\tau^-}}
 \newcommand{\tnu}{\ensuremath{\nu_{\tau}}}
 % antileptons
-\newcommand{\ealp}{\ensuremath{\bar{e}}}
+\newcommand{\ealp}{\ensuremath{e^+}}
 \newcommand{\eanu}{\ensuremath{\bar{\nu}_e}}
-\newcommand{\ualp}{\ensuremath{\bar{\mu}}}
+\newcommand{\ualp}{\ensuremath{\mu^+}}
 \newcommand{\uanu}{\ensuremath{\bar{\nu}_{\mu}}}
-\newcommand{\talp}{\ensuremath{\bar{\tau}}}
+\newcommand{\talp}{\ensuremath{\tau^+}}
 \newcommand{\tanu}{\ensuremath{\bar{\nu}_{\tau}}}
-% hadrons
-\newcommand{\prhd}{\ensuremath{p}}
-\newcommand{\nehd}{\ensuremath{n}}
-% antihadrons
-\newcommand{\prahd}{\ensuremath{\bar{p}}}
-\newcommand{\neahd}{\ensuremath{\bar{n}}}
+% baryons
+\newcommand{\prbr}{\ensuremath{p^+}}
+\newcommand{\nebr}{\ensuremath{n}}
+\newcommand{\lmzbr}{\ensuremath{\Lambda^0}}
+\newcommand{\sgpbr}{\ensuremath{\Sigma^+}}
+\newcommand{\sgzbr}{\ensuremath{\Sigma^0}}
+\newcommand{\sgmbr}{\ensuremath{\Sigma^-}}
+\newcommand{\dlppbr}{\ensuremath{\Delta^{++}}}
+\newcommand{\dlpbr}{\ensuremath{\Delta^+}}
+\newcommand{\dlzbr}{\ensuremath{\Delta^0}}
+\newcommand{\dlmbr}{\ensuremath{\Delta^-}}
+\newcommand{\xizbr}{\ensuremath{\Xi^0}}
+\newcommand{\ximbr}{\ensuremath{\Xi^-}}
+\newcommand{\sgspbr}{\ensuremath{\Sigma^{*+}}}
+\newcommand{\sgszbr}{\ensuremath{\Sigma^{*0}}}
+\newcommand{\sgsmbr}{\ensuremath{\Sigma^{*-}}}
+\newcommand{\xiszbr}{\ensuremath{\Xi^{*0}}}
+\newcommand{\xismbr}{\ensuremath{\Xi^{*-}}}
+\newcommand{\ommbr}{\ensuremath{\Omega^{-}}}
+% antibaryons
+\newcommand{\prabr}{\ensuremath{\mathrm{p}^-}}
+\newcommand{\neabr}{\ensuremath{\bar{\mathrm{n}}}}
+\newcommand{\dlpabr}{\ensuremath{\bar{\Delta}^{+}}}
+\newcommand{\dlzabr}{\ensuremath{\bar{\Delta}^{0}}}
+\newcommand{\dlmabr}{\ensuremath{\bar{\Delta}^{-}}}
+\newcommand{\dlmmabr}{\ensuremath{\bar{\Delta}^{--}}}
 % mesons
-\newcommand{\pime}{\ensuremath{\pi}}
-% antimesons
-\newcommand{\piame}{\ensuremath{\bar{\pi}}}
-
+\newcommand{\pipm}{\ensuremath{\pi^+}}
+\newcommand{\pizm}{\ensuremath{\pi^0}}
+\newcommand{\pimm}{\ensuremath{\pi^-}}
+\newcommand{\kapm}{\ensuremath{\mathrm{K}^+}}
+\newcommand{\kazm}{\ensuremath{\mathrm{K}^0}}
+\newcommand{\kazam}{\ensuremath{\bar{\mathrm{K}}^0}}
+\newcommand{\kamm}{\ensuremath{\mathrm{K}^-}}
+\newcommand{\ropm}{\ensuremath{\rho^+}}
+\newcommand{\rozm}{\ensuremath{\rho^0}}
+\newcommand{\romm}{\ensuremath{\rho^-}}
+\newcommand{\etam}{\ensuremath{\eta}}
+\newcommand{\etapm}{\ensuremath{\eta'}}
+\newcommand{\kaspm}{\ensuremath{\mathrm{K}^{*+}}}
+\newcommand{\kaszm}{\ensuremath{\mathrm{K}^{*0}}}
+\newcommand{\kaszam}{\ensuremath{\bar{\mathrm{K}}^{*0}}}
+\newcommand{\kasmm}{\ensuremath{\mathrm{K}^{*-}}}
+\newcommand{\omm}{\ensuremath{\omega}}
+\newcommand{\phim}{\ensuremath{\psi}}
+%bosons
+\newcommand{\phbsn}{\ensuremath{\gamma}}
+\newcommand{\photon}{\ensuremath{\gamma}}
+\newcommand{\Wmbsn}{\ensuremath{\mathrm{W}}^{-}}
 % Feynman diagrams
 \ifthenelse{\boolean{pfeynman}}%
  {\RequirePackage{feynmp}}%
