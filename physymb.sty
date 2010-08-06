@@ -108,6 +108,8 @@
 \newcommand{\real}[1]{\realop\{#1\}}
 % imaginary part
 \newcommand{\imag}[1]{\imagop\{#1\}}
+% sign
+\DeclareMathOperator{\sgn}{sgn}
 % absolute value
 \newcommand{\abs}[1]{\left\lvert#1\right\rvert}
 % norm (magnitude)
@@ -115,9 +117,9 @@
 % evaluate at endpoints
 \newcommand{\evalat}[3]{\left.#1\right|_{#2}^{#3}}
 % Poisson brackets
-\newcommand{\pbrac}[2]{\left[#1,#2\right]}
+\newcommand{\pbrac}[2]{\left\{#1,#2\right\}}
 % Poisson brackets with respect to specified variables
-\newcommand{\pbracvars}[4]{\left[#1,#2\right]_{#3,#4}}
+\newcommand{\pbracvars}[4]{\left\{#1,#2\right\}_{#3,#4}}
 % vector
 \ifthenelse{\boolean{pboldvectors}}%
  {\renewcommand{\vec}[1]{\mathbf{#1}}}%
@@ -135,11 +137,12 @@
 % determinant
 \newcommand{\determinant}[1]{\left\lvert#1\right\rvert}
 % trace
-\newcommand{\trace}[1]{\ensuremath{\mathrm{Tr}\left(#1\right)}}
+\DeclareMathOperator{\trace}{Tr}
 
 % unit vectors
 \newcommand{\unitd}{\hat{d}}
 \newcommand{\unite}{\hat{e}}
+\newcommand{\uniti}{\hat{i}}
 \newcommand{\unitj}{\hat{j}}
 \newcommand{\unitk}{\hat{k}}
 \newcommand{\unitl}{\hat{\ell}}
@@ -204,6 +207,8 @@
 \newcommand{\conj}[1]{{#1 ^{*}}}
 % Hermitian conjugate of an operator
 \newcommand{\herm}[1]{{#1 ^{\dagger}}}
+% Transpose of a matrix
+\newcommand{\transpose}[1]{{#1 ^{T}}}
 
 % Sets:
 % natural numbers
