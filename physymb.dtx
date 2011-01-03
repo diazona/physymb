@@ -1,0 +1,463 @@
+% \iffalse meta-comment
+%
+% Copyright (C) 2006-2010 by David Zaslavsky
+%
+% This file may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either
+% version 1.2 of this license or (at your option) any later
+% version. The latest version of this license is in:
+%
+% http://www.latex-project.org/lppl.txt
+%
+% and version 1.2 or later is part of all distributions of
+% LaTeX version 1999/12/01 or later.
+%
+% \fi
+
+% \iffalse
+%<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
+%<package>\ProvidesPackage{physymb}[2010/12/15 v0.1 Physics symbol definitions]
+%
+%<*driver>
+\documentclass{ltxdoc}
+\usepackage{physymb}
+\EnableCrossrefs
+\CodelineIndex
+\RecordChanges
+\begin{document}
+  \DocInput{physymb.dtx}
+\end{document}
+%</driver>
+% \fi
+
+% \CheckSum{0}
+%% \CharacterTable
+%%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%%   Digits        \0\1\2\3\4\5\6\7\8\9
+%%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%%   Dollar        \$     Percent       \%     Ampersand     \&
+%%   Acute accent  \'     Left paren    \(     Right paren   \)
+%%   Asterisk      \*     Plus          \+     Comma         \,
+%%   Minus         \-     Point         \.     Solidus       \/
+%%   Colon         \:     Semicolon     \;     Less than     \<
+%%   Equals        \=     Greater than  \>     Question mark \?
+%%   Commercial at \@     Left bracket  \[     Backslash     \\
+%%   Right bracket \]     Circumflex    \^     Underscore    \_
+%%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%%   Right brace   \}     Tilde         \~}
+%
+% \changes{v0.1}{2010/12/15}{Conversion from sty to dtx}
+%
+% \GetFileInfo{physymb.sty}
+%
+% \title{The \textsf{physymb} package\thanks{This document corresponds to \textsf{physymb}~\fileversion, dated~\filedate.}}
+% \author{David Zaslavsky \\ \texttt{diazona@ellipsix.net}}
+%
+% \maketitle
+% \begin{abstract}
+%  Abstract
+% \end{abstract}
+%
+% \section{Introduction}
+%
+% \section{Usage}
+%
+% \DescribeMacro{\scriptr}
+% |\scriptr| produces the script r found in Griffiths' electromagnetism textbook.
+%
+% \DescribeMacro{\snunit}
+%
+% \StopEventually{\PrintIndex}
+%
+% \section{Implementation}
+%
+% \subsection{Initialization}
+%    \begin{macrocode}
+\RequirePackage{ifthen}
+%    \end{macrocode}
+% This flag is set if the |particle| option is enabled. It enables definitions of particle symbol macros.
+%    \begin{macrocode}
+\newboolean{pparticle}
+%    \end{macrocode}
+% This flag is set if the |feynman| option is enabled. It pulls in the |feynmf| package.
+%    \begin{macrocode}
+\newboolean{pfeynman}
+%    \end{macrocode}
+% This flag is set if the |units| option is enabled. It pulls in the |SIunits| package and provides additional unit definitions.
+%    \begin{macrocode}
+\newboolean{punits}
+%    \end{macrocode}
+% This flag is set if the |boldvectors| option is enabled. It causes vectors to be rendered using a bold font instead of an overset arrow.
+%    \begin{macrocode}
+\newboolean{pboldvectors}
+%    \end{macrocode}
+%
+% \subsection{Option Declarations}
+% These are the option declarations, pretty self-explanatory.
+%    \begin{macrocode}
+\DeclareOption{particle}{\setboolean{pparticle}{true}}
+\DeclareOption{units}{\setboolean{punits}{true}}
+\DeclareOption{feynman}{\setboolean{pfeynman}{true}}
+\DeclareOption{arrowvectors}{\setboolean{pboldvectors}{false}}
+\DeclareOption{boldvectors}{\setboolean{pboldvectors}{true}}
+\ProcessOptions\relax
+%    \end{macrocode}
+%
+% \subsection{Macro Definitions}
+% Here we bring in the AMS packages for mathematical notation.
+%    \begin{macrocode}
+\RequirePackage{amsbsy}
+\RequirePackage{amsmath}
+\RequirePackage{amsfonts}
+\RequirePackage{amssymb}
+\allowdisplaybreaks[2]
+\RequirePackage{accents}
+%    \end{macrocode}
+% |calligra| is the package that includes the script r, $\scriptr$.
+%    \begin{macrocode}
+\RequirePackage{calligra}
+\DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
+\DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
+\newcommand{\scriptr}{\mathcalligra{r}}
+%    \end{macrocode}
+% Scientific notation is implemented in the obvious way.
+%    \begin{macrocode}
+\newcommand{\sn}[2]{\ensuremath{#1\times10^{#2}}}
+%    \end{macrocode}
+% Here we load SIunits if the |units| option was passed.
+%    \begin{macrocode}
+\ifthenelse{\boolean{punits}}
+{
+ \RequirePackage[thinspace,mediumqspace,Gray,squaren]{SIunits}
+%    \end{macrocode}
+% These are some SI derived units that have been useful on occasion
+%    \begin{macrocode}
+ \addunit{\joulepercubicmeter}{\joule\per\cubic\meter}
+ \addunit{\joulepercubicmeterrp}{\joule\usk\rpcubic\meter}
+%    \end{macrocode}
+% These are some useful non-SI units, defined using the SIunits internal command |\addunits|
+%    \begin{macrocode}
+ \addunit{\torr}{torr}
+ \addunit{\mmhg}{mmHg}
+ \addunit{\amu}{amu}
+ \addunit{\yr}{yr}
+ \addunit{\erg}{erg}
+ \addunit{\gauss}{Ga}
+ \addunit{\molar}{M}
+ \addunit{\poise}{P}
+ \addunit{\foot}{ft}
+ \addunit{\mileperhour}{mph}
+ \addunit{\pound}{lb}
+%    \end{macrocode}
+% |\snunit| is implemented using a combination of |\sn| and |\unit|
+%    \begin{macrocode}
+ \newcommand{\snunit}[3]{\ifthenelse{\equal{#1}{1}}%
+  {\unit{10^{#2}}{#3}}{\unit{\sn{#1}{#2}}{#3}}}
+}
+{}
+%    \end{macrocode}
+% |\orderof| uses the calligraphic capital O, $\mathcal{O}$
+%    \begin{macrocode}
+\newcommand{\orderof}[1]{\ensuremath{\mathcal{O}\left(#1\right)}}
+%    \end{macrocode}
+% Now we come to assorted functions and keywords. First some inverse trig functions:
+%    \begin{macrocode}
+\DeclareMathOperator{\asin}{\sin^{-1}}
+\DeclareMathOperator{\acos}{\cos^{-1}}
+\DeclareMathOperator{\atan}{\tan^{-1}}
+\DeclareMathOperator{\asec}{\sec^{-1}}
+\DeclareMathOperator{\acsc}{\csc^{-1}}
+\DeclareMathOperator{\acot}{\cot^{-1}}
+%    \end{macrocode}
+% and hyperbolic trig functions:
+%    \begin{macrocode}
+\DeclareMathOperator{\sech}{sech}
+\DeclareMathOperator{\csch}{csch}
+\DeclareMathOperator{\asinh}{\sinh^{-1}}
+\DeclareMathOperator{\acosh}{\cosh^{-1}}
+\DeclareMathOperator{\atanh}{\tanh^{-1}}
+\DeclareMathOperator{\asech}{\sech^{-1}}
+\DeclareMathOperator{\acsch}{\csch^{-1}}
+\DeclareMathOperator{\acoth}{\coth^{-1}}
+%    \end{macrocode}
+% Next are some linear algebra keywords.
+%    \begin{macrocode}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\realop}{Re}
+\DeclareMathOperator{\imagop}{Im}
+\newcommand{\real}[1]{\realop\{#1\}}
+\newcommand{\imag}[1]{\imagop\{#1\}}
+%    \end{macrocode}
+% The sign and absolute value keywords:
+%    \begin{macrocode}
+\DeclareMathOperator{\sgn}{sgn}
+\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+%    \end{macrocode}
+% Norm of a vector:
+%    \begin{macrocode}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+%    \end{macrocode}
+% Evaluation at endpoints uses |\left.| to get no visible mark on the left side.
+%    \begin{macrocode}
+\newcommand{\evalat}[3]{\left.#1\right|_{#2}^{#3}}
+%    \end{macrocode}
+% Poisson brackets are just braces
+%    \begin{macrocode}
+\newcommand{\pbrac}[2]{\left\{#1,#2\right\}}
+\newcommand{\pbracvars}[4]{\left\{#1,#2\right\}_{#3,#4}}
+%    \end{macrocode}
+% This handles the redefinition of |\vec|. If the |boldvectors| option was passed,
+% a vector is denoted by bolding the argument. If |arrowvectors| was passed, the
+% vector is denoted by putting an arrow over the argument.
+% Some people use an undertilde, which will probably be added in the future.
+%    \begin{macrocode}
+\ifthenelse{\boolean{pboldvectors}}%
+ {\renewcommand{\vec}[1]{\mathbf{#1}}}%
+ {\renewcommand{\vec}[1]{\accentset{\rightharpoonup}{#1}}}
+%    \end{macrocode}
+% |\vecvar| is just a synonym for |\vec|
+%    \begin{macrocode}
+\newcommand{\vecvar}[1]{\vec{#1}}
+%    \end{macrocode}
+% |\tnsvar| always uses bold. Some people use undertildes, which will be added.
+%    \begin{macrocode}
+\newcommand{\tnsvar}[1]{\mathbf{#1}}
+%    \end{macrocode}
+% |\matvar| always uses bold.
+%    \begin{macrocode}
+\newcommand{\matvar}[1]{\mathbf{#1}}
+%    \end{macrocode}
+% |\identitym| is a bold $1$
+%    \begin{macrocode}
+\newcommand{\identitym}{\mathbf{1}}
+%    \end{macrocode}
+% |\determinant| uses vertical bars. (I forget why I don't define |\det| as a synonym)
+%    \begin{macrocode}
+\newcommand{\determinant}[1]{\left\lvert#1\right\rvert}
+%    \end{macrocode}
+% |\trace| uses capital Tr.
+%    \begin{macrocode}
+\DeclareMathOperator{\trace}{Tr}
+%    \end{macrocode}
+% Now we get to some unit vectors, all just the relevant letter with a hat.
+%    \begin{macrocode}
+\newcommand{\unitd}{\hat{d}}
+\newcommand{\unite}{\hat{e}}
+\newcommand{\uniti}{\hat{i}}
+\newcommand{\unitj}{\hat{j}}
+\newcommand{\unitk}{\hat{k}}
+\newcommand{\unitl}{\hat{\ell}}
+\newcommand{\unitn}{\hat{n}}
+\newcommand{\unitp}{\hat{p}}
+\newcommand{\unitq}{\hat{q}}
+\newcommand{\unitr}{\hat{r}}
+\newcommand{\units}{\hat{s}}
+\newcommand{\unitt}{\hat{t}}
+\newcommand{\unitu}{\hat{u}}
+\newcommand{\unitv}{\hat{v}}
+\newcommand{\unitw}{\hat{w}}
+\newcommand{\unitx}{\hat{x}}
+\newcommand{\unity}{\hat{y}}
+\newcommand{\unitz}{\hat{z}}
+\newcommand{\unitphi}{\hat{\phi}}
+\newcommand{\unitrho}{\hat{\rho}}
+\newcommand{\unittheta}{\hat{\theta}}
+\newcommand{\unitomega}{\hat{\omega}}
+%    \end{macrocode}
+% This turns any letter into a unit vector.
+%    \begin{macrocode}
+\newcommand{\unitvec}[1]{\hat{#1}}
+%    \end{macrocode}
+% |\udc| is just an upright (roman) d, and similarly for higher-order differentials.
+%    \begin{macrocode}
+\newcommand{\udc}{\mathrm{d}}
+\newcommand{\uddc}{\mathrm{d}^2}
+\newcommand{\udddc}{\mathrm{d}^3}
+%    \end{macrocode}
+% |\pdc| is just |\partial|, defined for similarity with |\udc|.
+%    \begin{macrocode}
+\newcommand{\pdc}{\partial}
+\newcommand{\pddc}{\partial^2}
+\newcommand{\pdddc}{\partial^3}
+%    \end{macrocode}
+% |\uds| is just like |\udc| but it includes a small space in front. If I can figure
+% out how to do it I'll make the command autodetect the preceding character(s) and
+% figure out whether to add the space or not.
+%    \begin{macrocode}
+\newcommand{\uds}{\,\mathrm{d}}
+\newcommand{\udds}{\,\mathrm{d}^2}
+\newcommand{\uddds}{\,\mathrm{d}^3}
+%    \end{macrocode}
+% |\pds| is also defined for similarity as just |\partial| with a space in front,
+% although I'm not sure this one is really useful.
+%    \begin{macrocode}
+\newcommand{\pds}{\,\partial}
+\newcommand{\pdds}{\,\partial^2}
+\newcommand{\pddds}{\,\partial^3}
+%    \end{macrocode}
+% |\ud| typesets a derivative using |\udc|. Similarly for second and third derivatives.
+%    \begin{macrocode}
+\newcommand{\ud}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
+\newcommand{\udd}[2]{\frac{\mathrm{d}^2#1}{\mathrm{d} #2^2}}
+\newcommand{\uddd}[2]{\frac{\mathrm{d}^3#1}{\mathrm{d} #2^3}}
+%    \end{macrocode}
+% |\pd| does the same for partial derivatives with |\pdc|.
+%    \begin{macrocode}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\pdd}[2]{\frac{\partial^2#1}{\partial #2^2}}
+\newcommand{\pddd}[2]{\frac{\partial^3#1}{\partial #2^3}}
+%    \end{macrocode}
+% |\grad| typesets the gradient symbol, a nabla with an arrow over it (actually a harpoon).
+% This is done the same way regardless of the |arrowvectors| or |boldvectors| setting.
+%    \begin{macrocode}
+\newcommand{\grad}{\accentset{\rightharpoonup}{\nabla}}
+%    \end{macrocode}
+% |\div| is the divergence, defined using |\grad|. Ordinarily |\div| stands for the
+% division symbol but nobody really uses that, so I figured it's worth replacing.
+%    \begin{macrocode}
+\renewcommand{\div}{\grad\cdot}
+%    \end{macrocode}
+% |\curl| is done in the obvious way using |\grad|
+%    \begin{macrocode}
+\newcommand{\curl}{\grad\times}
+%    \end{macrocode}
+% |\lapl| is written without a harpoon since it's a scalar operator
+%    \begin{macrocode}
+\newcommand{\lapl}{\nabla^2}
+%    \end{macrocode}
+% |\conj| just puts a superscript star
+%    \begin{macrocode}
+\newcommand{\conj}[1]{{#1 ^{*}}}
+%    \end{macrocode}
+% |\herm| is the same thing but for operators or matrices, so with a dagger
+%    \begin{macrocode}
+\newcommand{\herm}[1]{{#1 ^{\dagger}}}
+%    \end{macrocode}
+% |\transpose| does the same with a $T$
+%    \begin{macrocode}
+\newcommand{\transpose}[1]{{#1 ^{T}}}
+%    \end{macrocode}
+% These set notations are mostly done with |\mathbb|
+%    \begin{macrocode}
+\newcommand{\natset}{\mathbb{N}}
+\newcommand{\intset}{\mathbb{Z}}
+\newcommand{\cpxset}{\mathbb{C}}
+\newcommand{\whlset}{\mathbb{Q}}
+\newcommand{\realset}{\mathbb{R}}
+\newcommand{\imagset}{\mathbb{I}}
+%    \end{macrocode}
+% Now Dirac notation, implemented using vertical bars and angle brackets in various combinations
+%    \begin{macrocode}
+\newcommand{\bra}[1]{\left\langle #1 \right\rvert}
+\newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
+\newcommand{\braket}[2]{\langle #1 \vert #2 \rangle}
+\newcommand{\melement}[3]{\langle #1 \vert #2 \vert #3 \rangle}
+\newcommand{\projop}[2]{\vert #1 \rangle #2 \langle #1 \vert}
+\newcommand{\expect}[1]{\left\langle #1 \right\rangle}
+%    \end{macrocode}
+% Commutators and anticommutators are done in the obvious way
+%    \begin{macrocode}
+\newcommand{\commut}[2]{\left[ #1, #2 \right]}
+\newcommand{\acommut}[2]{\left\{ #1, #2 \right\}}
+%    \end{macrocode}
+% The |\round| operator just typesets the word ``round''
+%    \begin{macrocode}
+\DeclareMathOperator{\round}{round}
+%    \end{macrocode}
+% The exterior derivative is typeset in bold, in contrast to the differential $\udc$ which
+% is just a plain roman font
+%    \begin{macrocode}
+\DeclareMathOperator{\exd}{\mathbf{d}}
+%    \end{macrocode}
+% The Hodge dual uses a star, but not superscript like |\conj|.
+%    \begin{macrocode}
+\newcommand{\hodge}{\star}
+%    \end{macrocode}
+% These are short macros to typeset the symbols for the elementary (and common non-elementary)
+% particles. Each one is set in math roman font, as opposed to text roman font if it makes
+% a difference. They're followed by an empty token |{}| for reasons which I forget.
+%
+% Theoretically these should only be loaded if the |particle| option was passed but I'll get
+% to that later; in the meantime they're unlikely to conflict with anything important.
+%    \begin{macrocode}
+\newcommand{\upq}{\ensuremath{\mathrm{u}}{}}
+\newcommand{\dnq}{\ensuremath{\mathrm{d}}{}}
+\newcommand{\srq}{\ensuremath{\mathrm{s}}{}}
+\newcommand{\chq}{\ensuremath{\mathrm{c}}{}}
+\newcommand{\btq}{\ensuremath{\mathrm{b}}{}}
+\newcommand{\tpq}{\ensuremath{\mathrm{t}}{}}
+\newcommand{\upaq}{\ensuremath{\bar{\mathrm{u}}}{}}
+\newcommand{\dnaq}{\ensuremath{\bar{\mathrm{d}}}{}}
+\newcommand{\sraq}{\ensuremath{\bar{\mathrm{s}}}{}}
+\newcommand{\chaq}{\ensuremath{\bar{\mathrm{c}}}{}}
+\newcommand{\btaq}{\ensuremath{\bar{\mathrm{b}}}{}}
+\newcommand{\tpaq}{\ensuremath{\bar{\mathrm{t}}}{}}
+\newcommand{\elp}{\ensuremath{\mathrm{e}^-}{}}
+\newcommand{\enu}{\ensuremath{\nu_\mathrm{e}}{}}
+\newcommand{\ulp}{\ensuremath{\mu^-}{}}
+\newcommand{\unu}{\ensuremath{\nu_{\mu}}{}}
+\newcommand{\tlp}{\ensuremath{\tau^-}{}}
+\newcommand{\tnu}{\ensuremath{\nu_{\tau}}{}}
+\newcommand{\ealp}{\ensuremath{\mathrm{e}^+}{}}
+\newcommand{\eanu}{\ensuremath{\bar{\nu}_\mathrm{e}}{}}
+\newcommand{\ualp}{\ensuremath{\mu^+}{}}
+\newcommand{\uanu}{\ensuremath{\bar{\nu}_{\mu}}{}}
+\newcommand{\talp}{\ensuremath{\tau^+}{}}
+\newcommand{\tanu}{\ensuremath{\bar{\nu}_{\tau}}{}}
+\newcommand{\prbr}{\ensuremath{\mathrm{p}^+}{}}
+\newcommand{\nebr}{\ensuremath{\mathrm{n}^0}{}}
+\newcommand{\lmzbr}{\ensuremath{\Lambda^0}{}}
+\newcommand{\sgpbr}{\ensuremath{\Sigma^+}{}}
+\newcommand{\sgzbr}{\ensuremath{\Sigma^0}{}}
+\newcommand{\sgmbr}{\ensuremath{\Sigma^-}{}}
+\newcommand{\dlppbr}{\ensuremath{\Delta^{++}}{}}
+\newcommand{\dlpbr}{\ensuremath{\Delta^+}{}}
+\newcommand{\dlzbr}{\ensuremath{\Delta^0}{}}
+\newcommand{\dlmbr}{\ensuremath{\Delta^-}{}}
+\newcommand{\xizbr}{\ensuremath{\Xi^0}{}}
+\newcommand{\ximbr}{\ensuremath{\Xi^-}{}}
+\newcommand{\ommbr}{\ensuremath{\Omega^-}{}}
+\newcommand{\sgspbr}{\ensuremath{\Sigma^{*+}}{}}
+\newcommand{\sgszbr}{\ensuremath{\Sigma^{*0}}{}}
+\newcommand{\sgsmbr}{\ensuremath{\Sigma^{*-}}{}}
+\newcommand{\xiszbr}{\ensuremath{\Xi^{*0}}{}}
+\newcommand{\xismbr}{\ensuremath{\Xi^{*-}}{}}
+\newcommand{\prabr}{\ensuremath{\mathrm{p}^-}{}}
+\newcommand{\neabr}{\ensuremath{\bar{\mathrm{n}}^0}{}}
+\newcommand{\dlpabr}{\ensuremath{\bar{\Delta}^{+}}{}}
+\newcommand{\dlzabr}{\ensuremath{\bar{\Delta}^{0}}{}}
+\newcommand{\dlmabr}{\ensuremath{\bar{\Delta}^{-}}{}}
+\newcommand{\dlmmabr}{\ensuremath{\bar{\Delta}^{--}}{}}
+\newcommand{\pipm}{\ensuremath{\pi^+}{}}
+\newcommand{\pizm}{\ensuremath{\pi^0}{}}
+\newcommand{\pimm}{\ensuremath{\pi^-}{}}
+\newcommand{\kapm}{\ensuremath{K^+}{}}
+\newcommand{\kazm}{\ensuremath{K^0}{}}
+\newcommand{\kazam}{\ensuremath{\bar{K}^0}{}}
+\newcommand{\kamm}{\ensuremath{K^-}{}}
+\newcommand{\ropm}{\ensuremath{\rho^+}{}}
+\newcommand{\rozm}{\ensuremath{\rho^0}{}}
+\newcommand{\romm}{\ensuremath{\rho^-}{}}
+\newcommand{\etam}{\ensuremath{\eta}{}}
+\newcommand{\etapm}{\ensuremath{\eta'}{}}
+\newcommand{\kaspm}{\ensuremath{\mathrm{K}^{*+}}{}}
+\newcommand{\kaszm}{\ensuremath{\mathrm{K}^{*0}}{}}
+\newcommand{\kaszam}{\ensuremath{\bar{\mathrm{K}}^{*0}}{}}
+\newcommand{\kasmm}{\ensuremath{\mathrm{K}^{*-}}{}}
+\newcommand{\omm}{\ensuremath{\omega}{}}
+\newcommand{\phim}{\ensuremath{\phi}{}}
+\newcommand{\phbsn}{\ensuremath{\gamma}{}}
+\newcommand{\Wbsn}{\ensuremath{\mathrm{W}}{}}
+\newcommand{\Wpbsn}{\ensuremath{\mathrm{W}^{+}}{}}
+\newcommand{\Wmbsn}{\ensuremath{\mathrm{W}^{-}}{}}
+\newcommand{\Zzbsn}{\ensuremath{\mathrm{Z}^{0}}{}}
+\newcommand{\hbsn}{\ensuremath{\mathrm{h}}{}}
+\newcommand{\photon}{\phbsn}
+%    \end{macrocode}
+% The |feynman| option is implemented by just loading the package |feynmp|.
+%    \begin{macrocode}
+\ifthenelse{\boolean{pfeynman}}%
+ {\RequirePackage{feynmp}}%
+ {}
+%    \end{macrocode}
