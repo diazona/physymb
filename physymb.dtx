@@ -82,13 +82,9 @@
 %
 % \maketitle
 % \begin{abstract}
-%  Abstract
+%  The |physymb| package is nothing but a bunch of simple macro definitions that
+%  may be useful for typesetting physics papers.
 % \end{abstract}
-%
-% \section{Introduction}
-%
-% The |physymb| package is nothing but a bunch of simple macro definitions that
-% may be useful for typesetting physics papers.
 %
 % \paragraph{What's so great about it?}
 % If you're scanning over this document wondering what good a bunch of simple macro
@@ -105,7 +101,65 @@
 %   as easy as |\ket{\psi}|.
 % \end{itemize}
 %
+% There are a lot of macros in this package, and it typically doesn't take as many
+% lines to explain their meanings as it does to list them all. For that reason, when
+% there are a bunch of similar macros that I explain together, I've usually only listed
+% one or two in the left margin. In these cases, all the macros are given in the text.
+%
 % \section{Usage}
+%
+% \subsection{Trigonometry}
+%
+% \DescribeMacro{\asin}
+% \DescribeMacro{\acos}
+% The AMS packages only define inverse trigonometric functions using the ``arc''
+% syntax, i.e. they actually prefix ``arc'' to the name (as in $\arcsin x$).
+% Sometimes you'd rather write them with a superscript $-1$ to save space, so
+% those versions are included here. We have the inverse functions |\asin|,
+% |\acos|, |\atan|, |\asec|, |\acsc|, and |\acot|.
+%
+% \DescribeMacro{\sech}
+% \DescribeMacro{\cosh}
+% For some reason, the hyperbolic sine and cosine |\sech| and |\cosh| aren't
+% defined in the AMS packages. This fixes that.
+%
+% \DescribeMacro{\asinh}
+% \DescribeMacro{\acosh}
+% Finally, the inverse hyperbolic trig functions written with the superscript
+% $-1$ are defined just as with the regular inverse trig functions. We have
+% |\asinh|, |\acosh|, |\atanh|, |\asech|, |\acsch|, and |\acoth|.
+%
+% \subsection{Sets}
+%
+% There are certain sets of numbers that are semi-frequently referenced in physics.
+% Typically they're used to say something like $n\in\intset$. Of course, a
+% macro like |\intset| is not necessarily much quicker than writing
+% |\mathbb{Z}|, but these macros are intended to have names that relate to
+% their meanings so that you don't have to remember which letter goes to which set.
+%
+% \DescribeMacro{\whlset}
+% |\whlset| ($\whlset$) denotes the set of whole numbers, which is typically
+% defined to include all integers greater than zero, although there are different
+% contradictory definitions floating around.
+%
+% \DescribeMacro{\natset}
+% |\natset| ($\natset$) denotes the set of natural numbers, which is typically
+% defined to include all integers greater than or equal to zero. Some people
+% define ``natural numbers'' to exclude zero.
+%
+% \DescribeMacro{\intset}
+% |\intset| ($\intset$) denotes the set of all integers.
+%
+% \DescribeMacro{\realset}
+% |\realset| ($\realset$) denotes the set of all real numbers.
+%
+% \DescribeMacro{\imagset}
+% |\imagset| ($\imagset$) denotes the set of all imaginary numbers, which is
+% all complex numbers with real part equal to zero. This one is infrequently
+% used.
+%
+% \DescribeMacro{\cpxset}
+% |\cpxset| ($\cpxset$) denotes the set of all complex numbers.
 %
 % \subsection{Calculus}
 %
@@ -197,6 +251,55 @@
 % with a following unit. If the abcissa is equal to $1$, it is omitted, so that
 % |\snunit{1}{6}{\meter}| gives you $\snunit{1}{6}{\meter}$.
 %
+% \paragraph{Additional units} The |SIunits| package only includes SI units (as
+% the name would suggest), but there are certain non-SI units that turn out to
+% be occasionally useful when dealing with American non-scientists. |physymb|
+% defines a selection of them as macros.
+%
+% \DescribeMacro{\torr}
+% \DescribeMacro{\mmHg}
+% Torr, |\torr|, and millimeters of mercury, |\mmHg|, are common atmospheric pressure units.
+%
+% \DescribeMacro{\amu}
+% |\amu| represents the atomic mass unit, defined as $\frac{1}{12}$ of the mass of a carbon 12
+% atom.
+%
+% \DescribeMacro{\yr}
+% |\yr| represents a year with the symbol $\yr$. There are various definitions of
+% different kinds of years floating around, but generally the symbol is the same.
+%
+% \DescribeMacro{\erg}
+% |\erg| represents an erg, the CGS unit of energy, which still finds occasional use.
+% Its value is $\snunit{1}{-7}{\joule}$.
+%
+% \DescribeMacro{\gauss}
+% |\gauss| is the Gauss, a unit of magnetic field equal to $\snunit{1}{-4}{\tesla}$.
+%
+% \DescribeMacro{\molar}
+% |\molar| represents a molar, a unit of concentration equal to one mole per liter.
+% Strictly speaking, this is a chemistry unit, but it occasionally comes up in
+% physics so it shouldn't hurt to have the macro around.
+%
+% \DescribeMacro{\poise}
+% The poise is the CGS unit of viscosity, equal to $\unit{0.1}{\pascal\usk\second}$.
+%
+% \DescribeMacro{\foot}
+% The foot is the Imperial unit of length, equal to $\unit{30.48}{\centi\meter}$.
+%
+% \DescribeMacro{\mileperhour}
+% This is typically (or perhaps almost exclusively) used to measure transportation
+% speeds: cars, trains, airplanes, etc. It's equal to about
+% $\unit{0.447}{\frac{\meter}{\second}}$.
+%
+% \DescribeMacro{\pound}
+% The pound is the Imperial unit of either force or mass, depending on who you
+% ask. Technically I believe it is a force, but in many situations
+% I've often found it clearer to treat it as a unit of mass and use $\mathrm{lbf}$
+% (pound of force) as the unit of force. In this sense, it's equal to about
+% $\unit{453.59}{\gram}$, and the pound of force is the weight of that mass
+% under standard Earth surface gravity, which works out to about
+% $\unit{4.448}{\newton}$.
+%
 % \subsection{Particle Physics}
 %
 % As a particle physicist, I do a lot of work that involves notation for elementary particles,
@@ -270,6 +373,26 @@
 % the antipartcle of the $\dlppbr$ (|\dlppbr|), the $\dlmmabr$, is written |\dlmmabr|,
 % with two |m|'s because of its double-minus charge.
 %
+% \paragraph{Mesons}
+% Essentially all the mesons defined in the standard model have macros. The naming can
+% be a bit tricky because some of them are named as charge triplets while others are
+% named as antiparticles. In the former case, we have the $\pi$s, |\pipm|, |\pizm|, and |\pimm|,
+% and the $\rho$s, |\ropm|, |\rozm|, and |\romm|. (I'm not sure if it'd make it cleaner
+% to just add the |h| into the names) The kaons have similar names, |\kapm|,
+% |\kazm|, and |\kamm|, but there is also the $\kazam$, |\kazam|. Finally, the neutral
+% mesons are named |\etam|, |\etapm| (here the |p| is for ``prime,'' not ``plus''), and
+% |\phim|.
+%
+% \paragraph{Bosons}
+% There aren't that many bosons so the naming is simple: |\phbsn| for the photon,
+% |\Zzbsn| for the neutral $\Zzbsn$, and |\Wpbsn| and |\Wmbsn| for the $\Wbsn$s. There's
+% also |\Wbsn|, which does not indicate either charge, for when you need to refer to
+% a generic $\Wbsn$ boson. The Higgs boson is written |\hbsn|.
+%
+% Also, there is a macro |\photon| which is defined to be the same thing as |\phbsn|.
+% It's included to support some old LaTeX files I wrote and although it will
+% \emph{probably} not be removed from the package in the future, I make no guarantees.
+%
 % \subsection{Miscellaneous}
 %
 % \DescribeMacro{\sn} |\sn|\marg{abcissa}\marg{exponent} is a shorthand for setting a number
@@ -278,6 +401,25 @@
 %
 % \DescribeMacro{\scriptr} |\scriptr| produces the script r found in Griffiths'
 % electromagnetism textbook, or at least the closest equivalent in LaTeX, $\scriptr$.
+%
+% \DescribeMacro{\orderof} |\orderof|\marg{expression} represents the order of an
+% expression, for example the error term in a perturbation series. Typical usage
+% would be like
+%
+% \begin{minipage}{.64\textwidth}
+% \begin{center}
+%  |\frac{1}{1 - x} = 1 + x + \orderof{x^2}|
+% \end{center}
+% \end{minipage}
+% \begin{minipage}{.34\textwidth}
+% \begin{equation*}
+%  \frac{1}{1 - x} = 1 + x + \orderof{x^2}
+% \end{equation*}
+% \end{minipage}
+%
+% It can also be used to discuss the growth of a function, e.g.
+% ``$\orderof{x^3}$ for large $x$,'' or for similar uses such as big-O notation
+% in computer algorithm analysis.
 %
 % \StopEventually{\PrintChanges\PrintIndex}
 %
