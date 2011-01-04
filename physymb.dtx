@@ -20,7 +20,8 @@
 %
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage{physymb}
+\usepackage[boldvectors,units]{physymb}
+\usepackage{multicol}
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -89,18 +90,194 @@
 % The |physymb| package is nothing but a bunch of simple macro definitions that
 % may be useful for typesetting physics papers.
 %
+% \paragraph{What's so great about it?}
+% If you're scanning over this document wondering what good a bunch of simple macro
+% definitions are, allow me to point out some highlights:
+% \begin{itemize}
+%  \item Total and partial derivatives can be typeset using two character macros.\\
+%   $\ud{y}{x}$ is now as easy as |\ud{y}{x}|.
+%  \item Numbers in scientific notation can also be typeset using a two character macro.
+%   $\sn{6.23}{6}$ is written |\sn{6.23}{6}|.
+%  \item Doing the same thing with units added is similarly convenient; you can write
+%   $\snunit{3.1}{6}{\meter^3}$ as |\snunit{3.1}{6}{\meter^3}|, which is a lot more
+%   convenient than writing the whole thing out ``manually.''
+%  \item There are standard, simple macros for writing Dirac notation: $\ket{\psi}$ is
+%   as easy as |\ket{\psi}|.
+% \end{itemize}
+%
 % \section{Usage}
+%
+% \subsection{Calculus}
 %
 % Probably the most useful macros in the package are the derivative operators.
 % Since it's so common to write something of the form $\ud{y}{x}$ or $\pd{y}{x}$,
-% we have two-character macros for each.
-% \DescribeMacro{\ud}
-% |\ud|\marg{top}\marg{bottom}
+% we have two-character macros for each:
+% \begin{itemize}
+%  \item \DescribeMacro{\ud} |\ud|\marg{top}\marg{bottom} typesets the normal total derivative
+%  \item \DescribeMacro{\pd} |\pd|\marg{top}\marg{bottom} typesets a partial derivative, which
+%   is the same thing but with a partial derivative symbol instead of the $\udc$.
+% \end{itemize}
+% \DescribeMacro{\udd}
+% \DescribeMacro{\uddd}
+% \DescribeMacro{\pdd}
+% \DescribeMacro{\pddd}
+% There are variants of these that produce higher-order derivatives; you can add
+% an order by adding another |d|, up to a total of three.
+% If you need something higher than the third derivative, you're on your own, but it's
+% easy to construct it using |\frac| and |\udc| or |\pdc|,
+% \begin{center}
+%  |\frac{\udc^4 y}{\udc x^4}|
+% \end{center}
 %
-% \DescribeMacro{\scriptr}
-% |\scriptr| produces the script r found in Griffiths' electromagnetism textbook.
+% \DescribeMacro{\udc}
+% \DescribeMacro{\pdc}
+% The macro |\udc| gives you the character that represents a differential. It's typically
+% set in roman type to distinguish it from a variable. |\pdc| is also defined as the
+% partial derivative character for consistency. There are variants of each with exponents
+% (up to 3) built in; again, you get them by adding an extra |d| or two to the name of the
+% command, |\uddc| and |\udddc| and so on.
+% \pagebreak[1]
 %
-% \DescribeMacro{\snunit}
+% \DescribeMacro{\uds}
+% \DescribeMacro{\pds}
+% If you're using these in an integral, it's common to want a small space before the
+% differential, so there are variants of the preceding commands defined that include
+% this small space for you; they replace the |c| with an |s|. They follow the same
+% pattern of adding additional |d|'s to get exponents. For example:
+%
+% \begin{minipage}{.64\textwidth}
+% \begin{center}
+%  |\iint e^{i\vec{k}\cdot\vec{x}}\udds\vec{x}|
+% \end{center}
+% \end{minipage}
+% \begin{minipage}{.34\textwidth}
+% \begin{equation*}
+%  \iint e^{i\vec{k}\cdot\vec{x}}\udds\vec{x}
+% \end{equation*}
+% \end{minipage}
+%
+% \subsection{Quantum Mechanics}
+%
+% |physymb| includes a full set of macros for working with Dirac notation.
+%
+% \DescribeMacro{\ket} To typeset a ket ($\ket\psi$), use |\ket|\marg{label}.
+% \DescribeMacro{\bra} Similarly, you can get a bra ($\bra\psi$), with |\bra|\marg{label}.
+% \DescribeMacro{\braket} To typeset a bracket (inner product), use
+% |\braket|\marg{bra label}\marg{ket label}.
+%
+% \DescribeMacro{\melement} To typeset a matrix element ($\melement{\phi}{A}{\psi}$), or any
+% case in which you have an operator between the bra and the ket, use
+% |\melement|\marg{bra label}\marg{operator}\marg{ket label}.
+% It should work fine to put an arbitrarily complicated expression in the middle of |\melement|,
+% but if your operator is something complicated, you \emph{could} consider just using |\bra|
+% and |\ket| for clarity,
+% \begin{center}
+%  |\bra{|\meta{bra label}|}|\meta{operator}|\ket{|\meta{ket label}|}|
+% \end{center}
+%
+% \DescribeMacro{\expect} To get an expectation value (an on-diagonal matrix element with
+% the state left implicit, $\expect{A}$), use |\expect|\marg{operator}. Again, you can put
+% an arbitrary expression within |\expect| but if it would make the code unclear, consider
+% using |\langle| and |\rangle|.
+%
+% \DescribeMacro{\projop} For a projection operator (outer product between a state and itself),
+% we have the command |\projop|\marg{label}\marg{value}, which comes out as $\projop{\psi}{x}$.
+% To get a general outer product between two different states, use |\bra| and |\ket|,
+% \begin{center}
+%  |\ket{|\meta{ket label}|}|\meta{value}|\bra{|\meta{bra label}|}|
+% \end{center}
+%
+% \subsection{Units}
+%
+% If the |units| option is provided to |physymb|, it automatically includes the |SIunits|
+% package and defines some additional units that are often useful in practice.
+%
+% \DescribeMacro{\snunit} |\snunit|\marg{abcissa}\marg{exponent}\marg{unit} combines
+% the functionality of |\sn| and |\unit|: it typesets a number in scientific notation
+% with a following unit. If the abcissa is equal to $1$, it is omitted, so that
+% |\snunit{1}{6}{\meter}| gives you $\snunit{1}{6}{\meter}$.
+%
+% \subsection{Particle Physics}
+%
+% As a particle physicist, I do a lot of work that involves notation for elementary particles,
+% so it's become useful to have a set of macros that produce standard written representations
+% for them. The names of the commands are pretty cryptic, but I've found that once you get
+% used to using them, the names aren't hard to remember and the effort saved by having short
+% macro names at least \emph{feels} worthwhile.
+%
+% In general, all the macro names follow the same pattern. Each one ends with a type
+% code that identifies the type of particle: |q| for quark, |lp| for a ``regular'' lepton,
+% |nu| for a neutrino, |br| for a baryon, |m| for a meson, and |bsn| for a boson. At the
+% beginning is a particle code consisting of one or two letters that identify the specific
+% particle within that type.
+%
+% Most of the basic macros consist of just those two parts. Antifermion macros are
+% constructed by prepending an |a| to the type code. For vector bosons that occur in
+% charge triplets, you prepend one of |p| (plus), |z| (zero), or |m| (minus) to indicate
+% which one of the triplet you want. The same goes for baryons which occur in ``triplets''
+% with the same name (three particles denoted by the same letter, even though they
+% may not actually be a triplet). Singlet baryons have the |z| as well for consistency.
+%
+% The proton and neutron are named differently because their names are so common.
+%
+% \paragraph{Quarks}
+% \DescribeMacro{\upq}
+% Each of the quark macros is named with three letters. The first two letters are the
+% particle code representing the name of the quark, and the third is the type code |q|.
+% The macros are |\upq|, |\dnq|, |\srq|, |\chq|, |\btq|, and |\tpq|, representing the
+% up, down, strange, charm, bottom, and top quarks, respectively.
+%
+% \DescribeMacro{\upaq}
+% The corresponding macros for the antiquarks are obtained by prepending |a| to the
+% type code |q|. We have |\upaq|, |\dnaq|, |\sraq|, |\chaq|, |\btaq|, and |\tpaq|.
+%
+% \paragraph{Leptons}
+% \DescribeMacro{\elp}
+% \DescribeMacro{\enu}
+% Leptons are done a little differently because there are two distinct types. The macros for
+% the electron, muon, and tau lepton are named with a letter and |lp|: we have |\elp| for the
+% electron, |\ulp| for the muon, and |\tlp| for the tau. Neutrino macros are constructed
+% using the same first letter, but |nu| instead of |lp|: |\enu|, |\unu|, and |\tnu|.
+% \pagebreak[3]
+%
+% \DescribeMacro{\ealp}
+% \DescribeMacro{\eanu}
+% Antileptons are named with an |a| between the particle code and the type code.
+% So we get |\ealp|, |\ualp|, and |\talp| for the ``regular'' antileptons and
+% |\eanu|, |\uanu|, and |\tanu| for the antineutrinos.
+%
+% \paragraph{Baryons}
+% Many of the most commonly referenced baryons in the standard model have
+% macros defined. Each of these ends with the type code |br|. Most of them are built
+% by putting a particle code and a charge letter together: we have |\lmzbr| for the
+% lambda baryon; |\sgpbr|, |\sgzbr|, |\sgmbr| for the sigmas, |\xizbr| and |\ximbr|
+% for the xi particles, and |\ommbr| for the omega of charge $-1$. The delta macros
+% are named on the same principle but since there are four of them, we use two charge
+% letters to indicate the $+2$ charge: |\dlppbr|, |\dlpbr|, |\dlzbr|, and |\dlmbr|.
+%
+% In addition, there are macros for the starred (excited) versions of the sigmas and
+% xis (only), obtained by adding an |s| before the charge letter: |\sgspbr| etc. and
+% |\xiszbr| etc.
+%
+% \DescribeMacro{\prbr}
+% \DescribeMacro{\nebr}
+% The proton and neutron don't quite fall into the pattern because their names aren't
+% used for multiple particles. The proton is |\prbr| and the neutron is |\nebr|.
+%
+% The antiparticles to all these are obtained in \emph{almost} the usual way, by
+% adding |a| just before the type code |br|. The one difference is that the charge
+% letters are updated to reflect the actual charge of the antiparticle, so for example
+% the antipartcle of the $\dlppbr$ (|\dlppbr|), the $\dlmmabr$, is written |\dlmmabr|,
+% with two |m|'s because of its double-minus charge.
+%
+% \subsection{Miscellaneous}
+%
+% \DescribeMacro{\sn} |\sn|\marg{abcissa}\marg{exponent} is a shorthand for setting a number
+% in scientific notation. It works just like |\snunit| except that it does not take any unit
+% as an argument.
+%
+% \DescribeMacro{\scriptr} |\scriptr| produces the script r found in Griffiths'
+% electromagnetism textbook, or at least the closest equivalent in LaTeX, $\scriptr$.
 %
 % \StopEventually{\PrintChanges\PrintIndex}
 %
