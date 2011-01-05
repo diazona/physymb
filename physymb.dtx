@@ -21,7 +21,7 @@
 %<*driver>
 \documentclass{ltxdoc}
 \usepackage[boldvectors,units]{physymb}
-\usepackage{multicol}
+\usepackage{hyperref}
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
@@ -106,7 +106,24 @@
 % there are a bunch of similar macros that I explain together, I've usually only listed
 % one or two in the left margin. In these cases, all the macros are given in the text.
 %
-% \section{Usage}
+% \section{Options}
+%
+% |physymb| recognizes the following options, in no particular order.
+%
+% \begin{itemize}
+%  \item |arrowvectors| causes vectors (specifically, the |\vec| command) to be rendered
+%   with an arrow above the symbol.
+%  \item |boldvectors| causes vectors (again, from |\vec|) to be rendered by typesetting
+%   the symbol in bold. It's the alternative to |arrowvectors|.
+%  \item |feynman| pulls in the |feynmp| package. (It's precisely equivalent to
+%   |\usepackage{feynmp}|, it's just here for convenience.)
+%  \item |particle| enables all the particle physics macros. (It's actually not implemented
+%   yet, so in practice the particle macros get defined regardless of whether you pass this
+%   option or not, but that will be fixed soon.)
+%  \item |units| pulls in the |SIunits| package and enables the additional unit macros.
+% \end{itemize}
+%
+% \section{Macros}
 %
 % \subsection{Trigonometry}
 %
@@ -210,6 +227,151 @@
 % \end{equation*}
 % \end{minipage}
 %
+% \subsection{Vector Calculus}
+%
+% \DescribeMacro{\div}
+% \DescribeMacro{\grad}
+% \DescribeMacro{\curl}
+% |\physymb| defines |\div|, |\grad|, and |\curl|, to represent the
+% divergence, gradient, and curl. These are typeset with the nabla
+% (or ``del'') character, $\nabla$, rather than being written out
+% as words. Naturally, I would love to add an |\allthat| if I can
+% find something good for it to represent.
+%
+% \DescribeMacro{\lapl}
+% There is also a macro for the Laplacian operator (divergence of a
+% gradient), |\lapl|.
+%
+% \subsection{Complex Analysis}
+%
+% \DescribeMacro{\conj}
+% There is a macro to indicate the conjugate of a number, |\conj|\marg{number}.
+% It puts a superscript star after the number, as in $\conj{z}$.
+%
+% \DescribeMacro{\realop}
+% \DescribeMacro{\imagop}
+% The traditional keywords indicating the real and imaginary parts of a complex number
+% are given macros |\realop| and |\imagop|. They typeset $\realop$ and $\imagop$
+% respectively.
+%
+% \DescribeMacro{\real}
+% \DescribeMacro{\imag}
+% Why the |op|? Well, there are alternate versions that will also put curly braces
+% around the following argument, |\real| and |\imag|. This is the way $\realop$ and
+% $\imagop$ are often used.
+%
+% \begin{minipage}{.64\textwidth}
+% \begin{center}
+%  |\real{z}, \imag{z}|
+% \end{center}
+% \end{minipage}
+% \begin{minipage}{.34\textwidth}
+% \begin{equation*}
+%  \real{z}, \imag{z}
+% \end{equation*}
+% \end{minipage}
+%
+% \DescribeMacro{\abs}
+% The macro |\abs|\marg{value} surrounds its argument with vertical bars.
+%
+% \subsection{Linear Algebra}
+%
+% There are several assorted macros for linear algebra keywords and concepts.
+%
+% \DescribeMacro{\vec}
+% \DescribeMacro{\vecvar}
+% Vectors can be written using the macro |\vec|\marg{label}, which typesets
+% the \meta{label} either in bold or with an arrow over it, according to which
+% option was passed to the package (|arrowvectors| or |boldvectors|).
+% The default is to use an arrow, to resemble the builtin definition of
+% |\vec| (which, by the way, is overridden by this package). In many cases
+% I prefer bold. |\vecvar|\marg{label} is another macro that does the exact
+% same thing, for consistency with the other kinds of variables.
+%
+% \DescribeMacro{\tnsvar}
+% The macro |\tnsvar|\marg{label} is for typesetting tensors. This just makes
+% the \meta{label} bold, it doesn't do anything with indices. If you want a way
+% to typeset tensor indices, look at the
+% \href{http://tug.ctan.org/cgi-bin/ctanPackageInformation.py?id=tensor}{tensor}
+% package.
+%
+% \DescribeMacro{\matvar}
+% |\matvar|\marg{label} is intended to designate matrices. It makes the label
+% bold.
+%
+% \DescribeMacro{\identitym}
+% The macro |\identitym| represents the identity matrix. It typesets a 1 in
+% the same style as |\matvar| (so, bold).
+%
+% \DescribeMacro{\determinant}
+% The macro |\determinant|\marg{matrix} uses vertical bars to denote the determinant
+% of the \meta{matrix}. It's an alternative to the keyword operator |\det|, which
+% just typesets as $\det$.
+%
+% \DescribeMacro{\trace}
+% The macro |\trace| just typesets $\trace$. It's akin to |\det|.
+%
+% \DescribeMacro{\diag}
+% This just typesets $\diag$, which is used to represent a matrix with the given entries
+% on the diagonal. For example, one might write |\diag(1,2,3,4)|.
+%
+% \DescribeMacro{\norm}
+% The norm of a vector can be denoted by double vertical bars. This is implemented by
+% |\norm|\marg{value}.
+%
+% \DescribeMacro{\unitx}
+% \DescribeMacro{\unity}
+% \DescribeMacro{\unitz}
+% Since it's so common to refer to unit vectors using hat notation, there are a
+% bunch of macros for them using various letters. The package defines |\unitd|,
+% |\unite|, |\uniti|, |\unitj|, |\unitk|, |\unitl| (which typesets as $\unitl$,
+% not the normal $l$), |\unitn|, |\unitp|, |\unitq|, |\unitr|, |\units|, |\unitt|,
+% |\unitu|, |\unitv|, |\unitw|, |\unitx|, |\unity|, |\unitz|, and for non-roman
+% characters, |\unitphi|, |\unitrho|, |\unittheta|, and |\unitomega|.
+% \DescribeMacro{\unitvec}
+% If you want to use a different letter as a unit vector, it can be done with
+% |\unitvec|\marg{symbol}.
+%
+% \DescribeMacro{\herm}
+% |\herm|\marg{operator} designates the hermitian conjugate of an operator with
+% a superscript dagger.
+%
+% \DescribeMacro{\transpose}
+% |\transpose|\marg{matrix} sets a superscript $T$ after the matrix to denote
+% the transpose.
+%
+% \DescribeMacro{\commut}
+% \DescribeMacro{\acommut}
+% There are simple macros for the commutator, |\commut|\marg{operator}\marg{operator},
+% and the anticommutator, |\acommut|\marg{operator}\marg{operator}. They just
+% put the appropriate kind of braces around the arguments (and the comma between
+% them, of course).
+%
+% \subsection{Differential Geometry}
+% \DescribeMacro{\exd}
+% The exterior derivative has a macro, |\exd|, kind of like the macro for differentials
+% ($\udc$) although typeset in bold to distinguish it. This one doesn't have any variants,
+% though, because $\exd^2 = 0$.
+%
+% \DescribeMacro{\hodge}
+% The macro |\hodge| just puts a star (not superscript) to represent the Hodge dual.
+% Use it as a prefix to the variable, $\hodge\exd x$.
+%
+% \subsection{Classical Mechanics}
+%
+% \DescribeMacro{\pbrac}
+% The Poisson brackets of a pair of variables can be typeset using the macro
+% |\pbrac|\marg{function}\marg{function}. This just surrounds the two arguments
+% with curly braces, producing $\pbrac{f}{g}$.
+%
+% \DescribeMacro{\pbracvars}
+% If you want to specify which variables the derivatives in the Poisson brackets
+% are being taken with respect to, use the variant
+% \begin{center}
+%  |\pbracvars|\marg{function}\marg{function}\marg{variable}\marg{variable}
+% \end{center}
+% It comes out looking like $\pbracvars{f}{g}{q}{p}$.
+%
 % \subsection{Quantum Mechanics}
 %
 % |physymb| includes a full set of macros for working with Dirac notation.
@@ -250,6 +412,13 @@
 % the functionality of |\sn| and |\unit|: it typesets a number in scientific notation
 % with a following unit. If the abcissa is equal to $1$, it is omitted, so that
 % |\snunit{1}{6}{\meter}| gives you $\snunit{1}{6}{\meter}$.
+%
+% \paragraph{SI units}
+% \DescribeMacro{\joulepercubicmeter}
+% \DescribeMacro{\joulepercubicmeterrp}
+% These units of energy density have been useful to me approximately twice.
+% Naturally, I had to include them. These augment the list of
+% composite units made available by |SIunits| itself.
 %
 % \paragraph{Additional units} The |SIunits| package only includes SI units (as
 % the name would suggest), but there are certain non-SI units that turn out to
@@ -423,6 +592,39 @@
 % ``$\orderof{x^3}$ for large $x$,'' or for similar uses such as big-O notation
 % in computer algorithm analysis.
 %
+% \DescribeMacro{\sgn}
+% There is a macro for the sign operator, |\sgn|, defined as
+% \begin{equation*}
+%  \sgn x = \begin{cases}1 & x > 0 \\ 0 & x = 0 \\ -1 & x < 0\end{cases}
+% \end{equation*}
+% (and yes, this is not really \emph{complex} analysis)
+%
+% \DescribeMacro{\round}
+% Occasionally it's useful to have some way to designate rounding a number.
+% The |\round| macro can be used for that. It comes out as $\round(x)$ (I do
+% recommend the parentheses).
+%
+% \DescribeMacro{\evalat}
+% The macro
+% |\evalat|\marg{expression}\marg{lower limit}\marg{upper limit}
+% is mainly useful for when you want to denote the numerical value
+% of a derivative at a specific point, or when you want to represent the
+% evaluation of an integral at the endpoints of the range of integration.
+% It produces a vertical bar at the right of the \meta{expression},
+% with the \meta{lower limit} and \meta{upper limit} typeset at the
+% lower and upper endpoints of the bar, respectively.
+%
+% \begin{minipage}{.64\textwidth}
+% \begin{center}
+%  |\evalat{x^3 + 3x - 5}{2}{7}|
+% \end{center}
+% \end{minipage}
+% \begin{minipage}{.34\textwidth}
+% \begin{equation*}
+%  \evalat{x^3 + 3x - 5}{2}{7}
+% \end{equation*}
+% \end{minipage}
+%
 % \StopEventually{\PrintChanges\PrintIndex}
 %
 % \section{Implementation}
@@ -587,7 +789,7 @@
 %    \begin{macrocode}
 \newcommand{\identitym}{\mathbf{1}}
 %    \end{macrocode}
-% |\determinant| uses vertical bars. (I forget why I don't define |\det| as a synonym)
+% |\determinant| uses vertical bars.
 %    \begin{macrocode}
 \newcommand{\determinant}[1]{\left\lvert#1\right\rvert}
 %    \end{macrocode}
