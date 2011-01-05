@@ -207,7 +207,6 @@
 % partial derivative character for consistency. There are variants of each with exponents
 % (up to 3) built in; again, you get them by adding an extra |d| or two to the name of the
 % command, |\uddc| and |\udddc| and so on.
-% \pagebreak[1]
 %
 % \DescribeMacro{\uds}
 % \DescribeMacro{\pds}
@@ -496,12 +495,14 @@
 %
 % \paragraph{Quarks}
 % \DescribeMacro{\upq}
+% \DescribeMacro{\dnq}
 % Each of the quark macros is named with three letters. The first two letters are the
 % particle code representing the name of the quark, and the third is the type code |q|.
 % The macros are |\upq|, |\dnq|, |\srq|, |\chq|, |\btq|, and |\tpq|, representing the
 % up, down, strange, charm, bottom, and top quarks, respectively.
 %
 % \DescribeMacro{\upaq}
+% \DescribeMacro{\dnaq}
 % The corresponding macros for the antiquarks are obtained by prepending |a| to the
 % type code |q|. We have |\upaq|, |\dnaq|, |\sraq|, |\chaq|, |\btaq|, and |\tpaq|.
 %
@@ -512,7 +513,6 @@
 % the electron, muon, and tau lepton are named with a letter and |lp|: we have |\elp| for the
 % electron, |\ulp| for the muon, and |\tlp| for the tau. Neutrino macros are constructed
 % using the same first letter, but |nu| instead of |lp|: |\enu|, |\unu|, and |\tnu|.
-% \pagebreak[3]
 %
 % \DescribeMacro{\ealp}
 % \DescribeMacro{\eanu}
@@ -521,6 +521,10 @@
 % |\eanu|, |\uanu|, and |\tanu| for the antineutrinos.
 %
 % \paragraph{Baryons}
+% \DescribeMacro{\lmzbr}
+% \DescribeMacro{\sgpbr}
+% \DescribeMacro{\sgzbr}
+% \DescribeMacro{\sgmbr}
 % Many of the most commonly referenced baryons in the standard model have
 % macros defined. Each of these ends with the type code |br|. Most of them are built
 % by putting a particle code and a charge letter together: we have |\lmzbr| for the
@@ -529,6 +533,9 @@
 % are named on the same principle but since there are four of them, we use two charge
 % letters to indicate the $+2$ charge: |\dlppbr|, |\dlpbr|, |\dlzbr|, and |\dlmbr|.
 %
+% \DescribeMacro{\sgspbr}
+% \DescribeMacro{\sgszbr}
+% \DescribeMacro{\sgsmbr}
 % In addition, there are macros for the starred (excited) versions of the sigmas and
 % xis (only), obtained by adding an |s| before the charge letter: |\sgspbr| etc. and
 % |\xiszbr| etc.
@@ -538,6 +545,7 @@
 % The proton and neutron don't quite fall into the pattern because their names aren't
 % used for multiple particles. The proton is |\prbr| and the neutron is |\nebr|.
 %
+% \DescribeMacro{\dlmmabr}
 % The antiparticles to all these are obtained in \emph{almost} the usual way, by
 % adding |a| just before the type code |br|. The one difference is that the charge
 % letters are updated to reflect the actual charge of the antiparticle, so for example
@@ -545,6 +553,9 @@
 % with two |m|'s because of its double-minus charge.
 %
 % \paragraph{Mesons}
+% \DescribeMacro{\pipm}
+% \DescribeMacro{\pizm}
+% \DescribeMacro{\pimm}
 % Essentially all the mesons defined in the standard model have macros. The naming can
 % be a bit tricky because some of them are named as charge triplets while others are
 % named as antiparticles. In the former case, we have the $\pi$s, |\pipm|, |\pizm|, and |\pimm|,
@@ -555,11 +566,15 @@
 % |\phim|.
 %
 % \paragraph{Bosons}
+% \DescribeMacro{\phbsn}
+% \DescribeMacro{\Wpbsn}
+% \DescribeMacro{\Wmbsn}
 % There aren't that many bosons so the naming is simple: |\phbsn| for the photon,
 % |\Zzbsn| for the neutral $\Zzbsn$, and |\Wpbsn| and |\Wmbsn| for the $\Wbsn$s. There's
 % also |\Wbsn|, which does not indicate either charge, for when you need to refer to
 % a generic $\Wbsn$ boson. The Higgs boson is written |\hbsn|.
 %
+% \DescribeMacro{\photon}
 % Also, there is a macro |\photon| which is defined to be the same thing as |\phbsn|.
 % It's included to support some old LaTeX files I wrote and although it will
 % \emph{probably} not be removed from the package in the future, I make no guarantees.
@@ -1019,4 +1034,5 @@
  {}
 %    \end{macrocode}
 %
+% \pagebreak[2]
 % \Finale
