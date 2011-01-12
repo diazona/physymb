@@ -91,20 +91,10 @@
 %  may be useful for typesetting physics papers.
 % \end{abstract}
 %
-% \paragraph{What's so great about it?}
-% If you're scanning over this document wondering what good a bunch of simple macro
-% definitions are, allow me to point out some highlights:
-% \begin{itemize}
-%  \item Total and partial derivatives can be typeset using two character macros.\\
-%   $\ud{y}{x}$ is now as easy as |\ud{y}{x}|.
-%  \item Numbers in scientific notation can also be typeset using a two character macro.
-%   $\sn{6.23}{6}$ is written |\sn{6.23}{6}|.
-%  \item Doing the same thing with units added is similarly convenient; you can write
-%   $\snunit{3.1}{6}{\meter^3}$ as |\snunit{3.1}{6}{\meter^3}|, which is a lot more
-%   convenient than writing the whole thing out ``manually.''
-%  \item There are standard, simple macros for writing Dirac notation: $\ket{\psi}$ is
-%   as easy as |\ket{\psi}|.
-% \end{itemize}
+% Most of the functionality of |physymb| is provided by importing the |siunitx| and
+% |braket| packages. If you're just looking to write numbers in scientific notation,
+% quantities with units, and/or Dirac notation, I recommend using those packages
+% directly.
 %
 % There are a lot of macros in this package, and it typically doesn't take as many
 % lines to explain their meanings as it does to list them all. For that reason, when
