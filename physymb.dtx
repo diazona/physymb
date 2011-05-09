@@ -58,11 +58,11 @@
 % \GetFileInfo{physymb.sty}
 %
 % \DoNotIndex{\#,\$,\%,\&,\@,\\,\{,\},\^,\_,\~,\ }
-% \DoNotIndex{\accentset,\addunit,\allowdisplaybreaks}
+% \DoNotIndex{\accentset,\allowdisplaybreaks}
 % \DoNotIndex{\bar,\boolean}
 % \DoNotIndex{\cos,\cubic}
 % \DoNotIndex{\dagger,\DeclareFontShape,\DeclareMathAlphabet,\DeclareMathOperator}
-% \DoNotIndex{\DeclareOption,\Delta}
+% \DoNotIndex{\DeclareOption,\DeclareSIUnit,\Delta}
 % \DoNotIndex{\ell\ensuremath,\equal}
 % \DoNotIndex{\frac}
 % \DoNotIndex{\gamma}
@@ -379,14 +379,7 @@
 % |siunitx| package and defines some additional units that are often useful in practice.
 % See the documentation of |siunitx| for commands provided by that package.
 %
-% \paragraph{SI units}
-% \DescribeMacro{\joulepercubicmeter}
-% \DescribeMacro{\joulepercubicmeterrp}
-% These units of energy density have been useful to me approximately twice.
-% Naturally, I had to include them. These augment the list of
-% composite units made available by |SIunits| itself.
-%
-% \paragraph{Additional units} The |SIunits| package only includes SI units (as
+% \paragraph{Additional units} The |siunitx| package only includes SI units (as
 % the name would suggest), but there are certain non-SI units that turn out to
 % be occasionally useful when dealing with American non-scientists. |physymb|
 % defines a selection of them as macros.
@@ -400,15 +393,15 @@
 % atom.
 %
 % \DescribeMacro{\yr}
-% |\yr| represents a year with the symbol $\yr$. There are various definitions of
+% |\yr| represents a year with the symbol $\si{\yr}$. There are various definitions of
 % different kinds of years floating around, but generally the symbol is the same.
 %
 % \DescribeMacro{\erg}
 % |\erg| represents an erg, the CGS unit of energy, which still finds occasional use.
-% Its value is $\snunit{1}{-7}{\joule}$.
+% Its value is $\SI{1e-7}{\joule}$.
 %
 % \DescribeMacro{\gauss}
-% |\gauss| is the Gauss, a unit of magnetic field equal to $\snunit{1}{-4}{\tesla}$.
+% |\gauss| is the Gauss, a unit of magnetic field equal to $\SI{1e-4}{\tesla}$.
 %
 % \DescribeMacro{\molar}
 % |\molar| represents a molar, a unit of concentration equal to one mole per liter.
@@ -416,24 +409,27 @@
 % physics so it shouldn't hurt to have the macro around.
 %
 % \DescribeMacro{\poise}
-% The poise is the CGS unit of viscosity, equal to $\unit{0.1}{\pascal\usk\second}$.
+% The poise is the CGS unit of viscosity, equal to $\SI{0.1}{\pascal\second}$.
 %
 % \DescribeMacro{\foot}
-% The foot is the Imperial unit of length, equal to $\unit{30.48}{\centi\meter}$.
+% The foot is the Imperial unit of length, equal to $\SI{30.48}{\centi\meter}$.
 %
 % \DescribeMacro{\mileperhour}
 % This is typically (or perhaps almost exclusively) used to measure transportation
 % speeds: cars, trains, airplanes, etc. It's equal to about
-% $\unit{0.447}{\frac{\meter}{\second}}$.
+% $\SI{0.447}{\meter\per\second}$.
 %
 % \DescribeMacro{\pound}
+% \DescribeMacro{\poundforce}
 % The pound is the Imperial unit of either force or mass, depending on who you
 % ask. Technically I believe it is a force, but in many situations
-% I've often found it clearer to treat it as a unit of mass and use $\mathrm{lbf}$
-% (pound of force) as the unit of force. In this sense, it's equal to about
-% $\unit{453.59}{\gram}$, and the pound of force is the weight of that mass
+% I've often found it clearer to treat it as a unit of mass and use $\si{\poundforce}$
+% (pound of force) as the unit of force. |physymb| defines macros for both.
+%
+% In this sense, a pound is equal to about
+% $\SI{453.59}{\gram}$, and the pound of force is the weight of that mass
 % under standard Earth surface gravity, which works out to about
-% $\unit{4.448}{\newton}$.
+% $\SI{4.448}{\newton}$.
 %
 % \subsection{Particle Physics}
 %
@@ -680,39 +676,26 @@
 }
 {}
 %    \end{macrocode}
-% Scientific notation is implemented in the obvious way.
-%    \begin{macrocode}
-\newcommand{\sn}[2]{\ensuremath{#1\times10^{#2}}}
-%    \end{macrocode}
-% Here we load SIunits if the |units| option was passed.
+% Here we load |siunitx| if the |units| option was passed.
 %    \begin{macrocode}
 \ifthenelse{\boolean{punits}}
 {
- \RequirePackage[thinspace,mediumqspace,Gray,squaren]{SIunits}
+ \RequirePackage{siunitx}
 %    \end{macrocode}
-% These are some SI derived units that have been useful on occasion
+% These are some useful non-SI units
 %    \begin{macrocode}
- \addunit{\joulepercubicmeter}{\joule\per\cubic\meter}
- \addunit{\joulepercubicmeterrp}{\joule\usk\rpcubic\meter}
-%    \end{macrocode}
-% These are some useful non-SI units, defined using the SIunits internal command |\addunits|
-%    \begin{macrocode}
- \addunit{\torr}{torr}
- \addunit{\mmhg}{mmHg}
- \addunit{\amu}{amu}
- \addunit{\yr}{yr}
- \addunit{\erg}{erg}
- \addunit{\gauss}{Ga}
- \addunit{\molar}{M}
- \addunit{\poise}{P}
- \addunit{\foot}{ft}
- \addunit{\mileperhour}{mph}
- \addunit{\pound}{lb}
-%    \end{macrocode}
-% |\snunit| is implemented using a combination of |\sn| and |\unit|
-%    \begin{macrocode}
- \newcommand{\snunit}[3]{\ifthenelse{\equal{#1}{1}}%
-  {\unit{10^{#2}}{#3}}{\unit{\sn{#1}{#2}}{#3}}}
+ \DeclareSIUnit{\torr}{torr}
+ \DeclareSIUnit{\mmhg}{mmHg}
+ \DeclareSIUnit{\amu}{amu}
+ \DeclareSIUnit{\yr}{yr}
+ \DeclareSIUnit{\erg}{erg}
+ \DeclareSIUnit{\gauss}{Ga}
+ \DeclareSIUnit{\molar}{\textsc{M}} % this follows the style set up in the siunitx manual
+ \DeclareSIUnit{\poise}{P}
+ \DeclareSIUnit{\foot}{ft}
+ \DeclareSIUnit{\mileperhour}{mph}
+ \DeclareSIUnit{\pound}{lb}
+ \DeclareSIUnit{\poundforce}{lbf}
 }
 {}
 %    \end{macrocode}
