@@ -110,12 +110,14 @@
 %   with an arrow above the symbol.
 %  \item |boldvectors| causes vectors (again, from |\vec|) to be rendered by typesetting
 %   the symbol in bold. It's the alternative to |arrowvectors|.
+%  \item |braket| pulls in the |braket| package. (It's precisely equivalent to
+%   |\usepackage{braket}|, it's just here for convenience.)
 %  \item |feynman| pulls in the |feynmp| package. (It's precisely equivalent to
 %   |\usepackage{feynmp}|, it's just here for convenience.)
 %  \item |particle| enables all the particle physics macros. (It's actually not implemented
 %   yet, so in practice the particle macros get defined regardless of whether you pass this
 %   option or not, but that will be fixed soon.)
-%  \item |units| pulls in the |SIunits| package and enables the additional unit macros.
+%  \item |units| pulls in the |siunitx| package and enables the additional unit macros.
 % \end{itemize}
 %
 % \section{Macros}
@@ -368,44 +370,14 @@
 %
 % \subsection{Quantum Mechanics}
 %
-% |physymb| includes a full set of macros for working with Dirac notation.
-%
-% \DescribeMacro{\ket} To typeset a ket ($\ket\psi$), use |\ket|\marg{label}.
-% \DescribeMacro{\bra} Similarly, you can get a bra ($\bra\psi$), with |\bra|\marg{label}.
-% \DescribeMacro{\braket} To typeset a bracket (inner product), use
-% |\braket|\marg{bra label}\marg{ket label}.
-%
-% \DescribeMacro{\melement} To typeset a matrix element ($\melement{\phi}{A}{\psi}$), or any
-% case in which you have an operator between the bra and the ket, use
-% |\melement|\marg{bra label}\marg{operator}\marg{ket label}.
-% It should work fine to put an arbitrarily complicated expression in the middle of |\melement|,
-% but if your operator is something complicated, you \emph{could} consider just using |\bra|
-% and |\ket| for clarity,
-% \begin{center}
-%  |\bra{|\meta{bra label}|}|\meta{operator}|\ket{|\meta{ket label}|}|
-% \end{center}
-%
-% \DescribeMacro{\expect} To get an expectation value (an on-diagonal matrix element with
-% the state left implicit, $\expect{A}$), use |\expect|\marg{operator}. Again, you can put
-% an arbitrary expression within |\expect| but if it would make the code unclear, consider
-% using |\langle| and |\rangle|.
-%
-% \DescribeMacro{\projop} For a projection operator (outer product between a state and itself),
-% we have the command |\projop|\marg{label}\marg{value}, which comes out as $\projop{\psi}{x}$.
-% To get a general outer product between two different states, use |\bra| and |\ket|,
-% \begin{center}
-%  |\ket{|\meta{ket label}|}|\meta{value}|\bra{|\meta{bra label}|}|
-% \end{center}
+% If the |braket| option is passed, |physymb| pulls in the |braket| package for
+% writing Dirac notation. See the documentation for that package for details.
 %
 % \subsection{Units}
 %
-% If the |units| option is provided to |physymb|, it automatically includes the |SIunits|
-% package and defines some additional units that are often useful in practice.
-%
-% \DescribeMacro{\snunit} |\snunit|\marg{abcissa}\marg{exponent}\marg{unit} combines
-% the functionality of |\sn| and |\unit|: it typesets a number in scientific notation
-% with a following unit. If the abcissa is equal to $1$, it is omitted, so that
-% |\snunit{1}{6}{\meter}| gives you $\snunit{1}{6}{\meter}$.
+% If the |units| option is provided to |physymb|, it automatically includes the
+% |siunitx| package and defines some additional units that are often useful in practice.
+% See the documentation of |siunitx| for commands provided by that package.
 %
 % \paragraph{SI units}
 % \DescribeMacro{\joulepercubicmeter}
