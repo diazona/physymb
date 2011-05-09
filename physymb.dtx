@@ -25,7 +25,7 @@
 %
 %<*driver>
 \documentclass{ltxdoc}
-\usepackage[boldvectors,units]{physymb}
+\usepackage[boldvectors,units,particle]{physymb}
 \usepackage{hyperref}
 \EnableCrossrefs
 \CodelineIndex
@@ -114,9 +114,7 @@
 %   |\usepackage{braket}|, it's just here for convenience.)
 %  \item |feynman| pulls in the |feynmp| package. (It's precisely equivalent to
 %   |\usepackage{feynmp}|, it's just here for convenience.)
-%  \item |particle| enables all the particle physics macros. (It's actually not implemented
-%   yet, so in practice the particle macros get defined regardless of whether you pass this
-%   option or not, but that will be fixed soon.)
+%  \item |particle| enables all the particle physics macros.
 %  \item |units| pulls in the |siunitx| package and enables the additional unit macros.
 % \end{itemize}
 %
@@ -912,9 +910,10 @@
 % particles. Each one is set in math roman font, as opposed to text roman font if it makes
 % a difference. They're followed by an empty token |{}| for reasons which I forget.
 %
-% Theoretically these should only be loaded if the |particle| option was passed but I'll get
-% to that later; in the meantime they're unlikely to conflict with anything important.
+% These are only defined if the |particle| option was passed.
 %    \begin{macrocode}
+\ifthenelse{\boolean{pparticle}}
+{
 \newcommand{\upq}{\ensuremath{\mathrm{u}}{}}
 \newcommand{\dnq}{\ensuremath{\mathrm{d}}{}}
 \newcommand{\srq}{\ensuremath{\mathrm{s}}{}}
@@ -988,6 +987,8 @@
 \newcommand{\Zzbsn}{\ensuremath{\mathrm{Z}^{0}}{}}
 \newcommand{\hbsn}{\ensuremath{\mathrm{h}}{}}
 \newcommand{\photon}{\phbsn}
+}
+{}
 %    \end{macrocode}
 % The |feynman| option is implemented by just loading the package |feynmp|.
 %    \begin{macrocode}
