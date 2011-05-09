@@ -630,7 +630,11 @@
 %    \begin{macrocode}
 \newboolean{pfeynman}
 %    \end{macrocode}
-% This flag is set if the |units| option is enabled. It pulls in the |SIunits| package and provides additional unit definitions.
+% This flag is set if the |braket| option is enabled. It pulls in the |braket| package.
+%    \begin{macrocode}
+\newboolean{pbraket}
+%    \end{macrocode}
+% This flag is set if the |units| option is enabled. It pulls in the |siunitx| package and provides additional unit definitions.
 %    \begin{macrocode}
 \newboolean{punits}
 %    \end{macrocode}
@@ -642,6 +646,7 @@
 % \subsection{Option Declarations}
 % These are the option declarations, pretty self-explanatory.
 %    \begin{macrocode}
+\DeclareOption{braket}{\setboolean{pbraket}{true}}
 \DeclareOption{particle}{\setboolean{pparticle}{true}}
 \DeclareOption{units}{\setboolean{punits}{true}}
 \DeclareOption{feynman}{\setboolean{pfeynman}{true}}
@@ -666,6 +671,14 @@
 \DeclareMathAlphabet{\mathcalligra}{T1}{calligra}{m}{n}
 \DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
 \newcommand{\scriptr}{\mathcalligra{r}}
+%    \end{macrocode}
+% Here we load the |braket| package if the corresponding option was passed.
+%    \begin{macrocode}
+\ifthenelse{\boolean{pbraket}}
+{
+ \RequirePackage{braket}
+}
+{}
 %    \end{macrocode}
 % Scientific notation is implemented in the obvious way.
 %    \begin{macrocode}
@@ -892,15 +905,6 @@
 \newcommand{\whlset}{\mathbb{Q}}
 \newcommand{\realset}{\mathbb{R}}
 \newcommand{\imagset}{\mathbb{I}}
-%    \end{macrocode}
-% Now Dirac notation, implemented using vertical bars and angle brackets in various combinations
-%    \begin{macrocode}
-\newcommand{\bra}[1]{\left\langle #1 \right\rvert}
-\newcommand{\ket}[1]{\left\lvert #1 \right\rangle}
-\newcommand{\braket}[2]{\langle #1 \vert #2 \rangle}
-\newcommand{\melement}[3]{\langle #1 \vert #2 \vert #3 \rangle}
-\newcommand{\projop}[2]{\vert #1 \rangle #2 \langle #1 \vert}
-\newcommand{\expect}[1]{\left\langle #1 \right\rangle}
 %    \end{macrocode}
 % Commutators and anticommutators are done in the obvious way
 %    \begin{macrocode}
