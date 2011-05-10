@@ -4,16 +4,15 @@
 The physymb package contains a bunch of assorted macros that may
 be useful to physicists (and perhaps occasionally mathematicians).
 
-The package contains five files:
+The package contains four files:
 
 * README: This file :)
-* physymb.sty: The package itself.
 * physymb.pdf: The PDF documentation, which details all the macros
    defined by the package.
 * physymb.dtx: The documented source. Running pdflatex on this
    reproduces the PDF documentation.
 * physymb.ins: The installer file. Running latex or pdflatex on
-   this will regenerate physymb.sty.
+   this will generate the actual package file, physymb.sty.
 
 To install the package, it should be enough to just copy physymb.sty
 to the tex/latex/physymb/ directory (which you may need to create)
