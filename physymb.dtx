@@ -372,6 +372,29 @@
 % If the |braket| option is passed, |physymb| pulls in the |braket| package for
 % writing Dirac notation. See the documentation for that package for details.
 %
+% Additionally, two semantic macros are provided as alternate names for certain
+% combinations of bras and kets:
+%
+% \DescribeMacro{\expect} To get an expectation value (an on-diagonal matrix element with
+% the state left implicit, $\expect{A}$), use |\expect|\marg{operator}. This is just an
+% alternate name for |braket|'s |\braket|\marg{operator}; the only reason to use it is
+% to make it clear what you meant to someone reading your source code. (A very good reason,
+% as far as I'm concerned) You can put an arbitrary expression within |\expect|, but don't
+% use vertical bars because then it'll look like a matrix element $\expect{\psi|A|\psi}$.
+%
+% \DescribeMacro{\Expect} |\Expect| is the same as |\expect| except that it scales the angle
+% brackets using |\left| and |\right|.
+%
+% \DescribeMacro{\project} For a projection operator (outer product between a state and itself),
+% we have the command |\projop|\marg{label}\marg{value}, which comes out as $\projop{\psi}{x}$.
+% To get a general outer product between two different states, use |\bra| and |\ket|,
+% \begin{center}
+%  |\ket{|\meta{ket label}|}|\meta{value}|\bra{|\meta{bra label}|}|
+% \end{center}
+%
+% \DescribeMacro{\Project} Again, |\Project| is just like |\project| except that it scales the
+% delimiters.
+%
 % \subsection{Units}
 %
 % If the |units| option is provided to |physymb|, it automatically includes the
@@ -670,6 +693,13 @@
  \RequirePackage{braket}
 }
 {}
+%    \end{macrocode}
+% Semantic Dirac notation, implemented on top of braket macros
+%    \begin{macrocode}
+\newcommand{\project}[2]{\ket{#1}#2\bra{#1}}
+\newcommand{\Project}[2]{\Ket{#1}#2\Bra{#1}}
+\newcommand{\expect}[1]{\braket{#1}}
+\newcommand{\Expect}[1]{\Braket{#1}}
 %    \end{macrocode}
 % Here we load |siunitx| if the |units| option was passed.
 %    \begin{macrocode}
