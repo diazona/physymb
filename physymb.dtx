@@ -691,15 +691,15 @@
 \ifthenelse{\boolean{pbraket}}
 {
  \RequirePackage{braket}
-}
-{}
 %    \end{macrocode}
 % Semantic Dirac notation, implemented on top of braket macros
 %    \begin{macrocode}
-\newcommand{\project}[2]{\ket{#1}#2\bra{#1}}
-\newcommand{\Project}[2]{\Ket{#1}#2\Bra{#1}}
-\newcommand{\expect}[1]{\braket{#1}}
-\newcommand{\Expect}[1]{\Braket{#1}}
+ \newcommand{\project}[2]{\ket{#1}#2\bra{#1}}
+ \newcommand{\Project}[2]{\Ket{#1}#2\Bra{#1}}
+ \newcommand{\expect}[1]{\braket{#1}}
+ \newcommand{\Expect}[1]{\Braket{#1}}
+}
+{}
 %    \end{macrocode}
 % Here we load |siunitx| if the |units| option was passed.
 %    \begin{macrocode}
