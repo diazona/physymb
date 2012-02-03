@@ -630,6 +630,16 @@
 % are already here. Any feedback you may have will be welcome at my email address,
 % given at the top of the document.
 %
+% \section{Bugs}
+%
+% With certain versions of LaTeX (pdflatex included in TeXLive 2009 comes to mind),
+% there is a register allocation conflict between this package and the |floatrow|
+% and |morefloats| packages. If you're using either of those along with |physymb|,
+% and you're getting |No room for a new \count| errors, you need to add
+% |\usepackage{etex}\reserveinserts{28}| to your preamble. See
+% \url{http://tex.stackexchange.com/questions/38607/no-room-for-a-new-dimen}
+% for more information.
+%
 % \section{Implementation}
 %
 % \subsection{Initialization}
