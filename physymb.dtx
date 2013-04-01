@@ -1,6 +1,6 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2005-2011 by David Zaslavsky <diazona@ellipsix.net>
+% Copyright (C) 2005-2013 by David Zaslavsky <diazona@ellipsix.net>
 %
 % This work may be distributed and/or modified under the
 % conditions of the LaTeX Project Public License, either version 1.3
@@ -21,7 +21,7 @@
 
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
-%<package>\ProvidesPackage{physymb}[2011/05/09 v0.2 Physics symbol definitions]
+%<package>\ProvidesPackage{physymb}[2013/04/01 v0.3 Physics symbol definitions]
 %
 %<*driver>
 \documentclass{ltxdoc}
@@ -36,7 +36,7 @@
 %</driver>
 % \fi
 
-% \CheckSum{720}
+% \CheckSum{749}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -58,6 +58,7 @@
 % \changes{v0.2}{2011/05/09}{Implemented the particle option}
 % \changes{v0.2}{2011/05/09}{Switched to dotless i and j in unit vectors}
 % \changes{v0.2}{2011/05/09}{Documented changes to |\real| and |\imag|}
+% \changes{v0.3}{2013/04/01}{Fix compatibility issues with mandi}
 %
 % \GetFileInfo{physymb.sty}
 %
@@ -118,6 +119,14 @@
 %   |\usepackage{braket}|, it's just here for convenience.)
 %  \item |feynman| pulls in the |feynmp| package. (It's precisely equivalent to
 %   |\usepackage{feynmp}|, it's just here for convenience.)
+%  \item |overridemandi| is only relevant if you are using |physymb| and the |mandi|
+%   package in the same document, and only if you load |physymb| after |mandi|. If you do,
+%   specifying this option causes certain macros in physymb to be defined in a way that
+%   will override the definitions of the same macros from |mandi|. Otherwise, the
+%   definitions of those commands in |physymb| will be skipped, leaving the definitions in
+%   |mandi| to be used. The affected macros are |\evalat|, |\curl|, and |\abs|. (If you
+%   specify this option when |mandi| has not been loaded, it has no effect, but a warning
+%   will be printed in the log.)
 %  \item |particle| enables all the particle physics macros.
 %  \item |units| pulls in the |siunitx| package and enables the additional unit macros.
 % \end{itemize}
@@ -670,11 +679,22 @@
 %    \begin{macrocode}
 \newboolean{pboldvectors}
 %    \end{macrocode}
+% This flag is set if the |overridemandi| option is enabled \emph{and} |mandi| is already loaded. It causes selected commands, which are defined differently in the mandi package, to be overridden with their definitions in physymb.
+%    \begin{macrocode}
+\newboolean{poverridemandi}
+%    \end{macrocode}
 %
 % \subsection{Option Declarations}
 % These are the option declarations, pretty self-explanatory.
 %    \begin{macrocode}
 \DeclareOption{braket}{\setboolean{pbraket}{true}}
+\DeclareOption{overridemandi}{%
+ \@ifpackageloaded{mandi}{%
+  \setboolean{poverridemandi}{true}%
+ }{%
+  \PackageWarning{physymb}{'overridemandi' option provided but 'mandi' package not loaded!}%
+ }%
+}
 \DeclareOption{particle}{\setboolean{pparticle}{true}}
 \DeclareOption{units}{\setboolean{punits}{true}}
 \DeclareOption{feynman}{\setboolean{pfeynman}{true}}
@@ -744,24 +764,29 @@
 %    \end{macrocode}
 % Now we come to assorted functions and keywords. First some inverse trig functions:
 %    \begin{macrocode}
-\DeclareMathOperator{\asin}{\sin^{-1}}
-\DeclareMathOperator{\acos}{\cos^{-1}}
-\DeclareMathOperator{\atan}{\tan^{-1}}
-\DeclareMathOperator{\asec}{\sec^{-1}}
-\DeclareMathOperator{\acsc}{\csc^{-1}}
-\DeclareMathOperator{\acot}{\cot^{-1}}
+\@ifpackageloaded{mandi}{}{%
+ \DeclareMathOperator{\asin}{\sin^{-1}}
+ \DeclareMathOperator{\acos}{\cos^{-1}}
+ \DeclareMathOperator{\atan}{\tan^{-1}}
+ \DeclareMathOperator{\asec}{\sec^{-1}}
+ \DeclareMathOperator{\acsc}{\csc^{-1}}
+ \DeclareMathOperator{\acot}{\cot^{-1}}
 %    \end{macrocode}
 % and hyperbolic trig functions:
 %    \begin{macrocode}
-\DeclareMathOperator{\sech}{sech}
-\DeclareMathOperator{\csch}{csch}
-\DeclareMathOperator{\asinh}{\sinh^{-1}}
-\DeclareMathOperator{\acosh}{\cosh^{-1}}
-\DeclareMathOperator{\atanh}{\tanh^{-1}}
-\DeclareMathOperator{\asech}{\sech^{-1}}
-\DeclareMathOperator{\acsch}{\csch^{-1}}
-\DeclareMathOperator{\acoth}{\coth^{-1}}
+ \DeclareMathOperator{\sech}{sech}
+ \DeclareMathOperator{\csch}{csch}
+ \DeclareMathOperator{\asinh}{\sinh^{-1}}
+ \DeclareMathOperator{\acosh}{\cosh^{-1}}
+ \DeclareMathOperator{\atanh}{\tanh^{-1}}
+ \DeclareMathOperator{\asech}{\sech^{-1}}
+ \DeclareMathOperator{\acsch}{\csch^{-1}}
+ \DeclareMathOperator{\acoth}{\coth^{-1}}
+}
 %    \end{macrocode}
+% The above macros are defined identically in |mandi|, so if that package is loaded,
+% we just skip the definitions here.
+%
 % Next are some linear algebra keywords.
 %    \begin{macrocode}
 \DeclareMathOperator{\diag}{diag}
@@ -772,8 +797,14 @@
 %    \end{macrocode}
 % The sign and absolute value keywords:
 %    \begin{macrocode}
-\DeclareMathOperator{\sgn}{sgn}
-\newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+\@ifpackageloaded{mandi}{
+ \ifthenelse{\boolean{poverridemandi}}{%
+  \renewcommand{\abs}[1]{\left\lvert#1\right\rvert}
+ }{}
+}{%
+ \DeclareMathOperator{\sgn}{sgn}
+ \newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+}
 %    \end{macrocode}
 % Norm of a vector:
 %    \begin{macrocode}
@@ -781,7 +812,13 @@
 %    \end{macrocode}
 % Evaluation at endpoints uses |\left.| to get no visible mark on the left side.
 %    \begin{macrocode}
-\newcommand{\evalat}[3]{\left.#1\right|_{#2}^{#3}}
+\@ifpackageloaded{mandi}{
+ \ifthenelse{\boolean{poverridemandi}}{%
+  \renewcommand{\evalat}[3]{\left.#1\right|_{#2}^{#3}}
+ }{}
+}{%
+ \newcommand{\evalat}[3]{\left.#1\right|_{#2}^{#3}}
+}
 %    \end{macrocode}
 % Poisson brackets are just braces
 %    \begin{macrocode}
@@ -901,7 +938,13 @@
 %    \end{macrocode}
 % |\curl| is done in the obvious way using |\grad|
 %    \begin{macrocode}
-\newcommand{\curl}{\grad\times}
+\@ifpackageloaded{mandi}{%
+ \ifthenelse{\boolean{overridemandi}}{%
+  \renewcommand{\curl}{\grad\times}
+ }{}
+}{%
+ \newcommand{\curl}{\grad\times}
+}
 %    \end{macrocode}
 % |\lapl| is written without a harpoon since it's a scalar operator
 %    \begin{macrocode}
