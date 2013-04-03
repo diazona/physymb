@@ -21,7 +21,7 @@
 
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
-%<package>\ProvidesPackage{physymb}[2013/04/01 v0.3 Physics symbol definitions]
+%<package>\ProvidesPackage{physymb}[2013/04/02 v0.3 Physics symbol definitions]
 %
 %<*driver>
 \documentclass{ltxdoc}
@@ -36,7 +36,7 @@
 %</driver>
 % \fi
 
-% \CheckSum{749}
+% \CheckSum{765}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -58,7 +58,7 @@
 % \changes{v0.2}{2011/05/09}{Implemented the particle option}
 % \changes{v0.2}{2011/05/09}{Switched to dotless i and j in unit vectors}
 % \changes{v0.2}{2011/05/09}{Documented changes to |\real| and |\imag|}
-% \changes{v0.3}{2013/04/01}{Fix compatibility issues with mandi}
+% \changes{v0.3}{2013/04/02}{Fix compatibility issues with mandi}
 %
 % \GetFileInfo{physymb.sty}
 %
@@ -926,23 +926,41 @@
 \newcommand{\pdd}[2]{\frac{\partial^2#1}{\partial #2^2}}
 \newcommand{\pddd}[2]{\frac{\partial^3#1}{\partial #2^3}}
 %    \end{macrocode}
-% |\grad| typesets the gradient symbol, a nabla with an arrow over it (actually a harpoon).
-% This is done the same way regardless of the |arrowvectors| or |boldvectors| setting.
-%    \begin{macrocode}
-\newcommand{\grad}{\accentset{\rightharpoonup}{\nabla}}
-%    \end{macrocode}
-% |\div| is the divergence, defined using |\grad|. Ordinarily |\div| stands for the
-% division symbol but nobody really uses that, so I figured it's worth replacing.
-%    \begin{macrocode}
-\renewcommand{\div}{\grad\cdot}
-%    \end{macrocode}
-% |\curl| is done in the obvious way using |\grad|
+%
+% All of |\div|, |\grad|, and |\curl| are defined or not as a unit to avoid inconsistency.
 %    \begin{macrocode}
 \@ifpackageloaded{mandi}{%
  \ifthenelse{\boolean{poverridemandi}}{%
+%    \end{macrocode}
+% |\grad| typesets the gradient symbol, a nabla with an arrow over it (actually a harpoon).
+% This is done the same way regardless of the |arrowvectors| or |boldvectors| setting.
+% Note that |mandi| does not define |\grad| (file a bug report if this changes) so I use
+% |\newcommand| here.
+%    \begin{macrocode}
+  \newcommand{\grad}{\accentset{\rightharpoonup}{\nabla}}
+%    \end{macrocode}
+% |\div| is the divergence, defined using |\grad|. |mandi| doesn't define |\div| either,
+% but LaTeX does use it to stand for the division symbol. Nobody really uses that, though,
+% so I figured it's worth replacing.
+%    \begin{macrocode}
+  \renewcommand{\div}{\grad\cdot}
+%    \end{macrocode}
+% |\curl| is done in the obvious way using |\grad|.
+%    \begin{macrocode}
   \renewcommand{\curl}{\grad\times}
- }{}
+ }{%
+  \let\physymb@divsymbol\div
+  \renewcommand\div{%
+   \PackageWarning{physymb}{Make sure you meant to use the division symbol here!}%
+   \physymb@divsymbol}
+ }
 }{%
+%    \end{macrocode}
+% Now repeat those definitions for when |mandi| isn't loaded, just changing to |\newcommand|
+% for defining |\curl|.
+%    \begin{macrocode}
+ \newcommand{\grad}{\accentset{\rightharpoonup}{\nabla}}
+ \renewcommand{\div}{\grad\cdot}
  \newcommand{\curl}{\grad\times}
 }
 %    \end{macrocode}
