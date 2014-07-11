@@ -858,34 +858,41 @@
 %    \begin{macrocode}
 \DeclareMathOperator{\trace}{Tr}
 %    \end{macrocode}
-% Now we get to some unit vectors, all just the relevant letter with a hat.
+% Now we get to unit vectors. This macro turns any letter into a unit vector
+% by putting a hat on it, and bolding it if the |boldvectors| option is
+% enabled.
 %    \begin{macrocode}
-\newcommand{\unitd}{\hat{d}}
-\newcommand{\unite}{\hat{e}}
-\newcommand{\uniti}{\hat{\imath}}
-\newcommand{\unitj}{\hat{\jmath}}
-\newcommand{\unitk}{\hat{k}}
-\newcommand{\unitl}{\hat{\ell}}
-\newcommand{\unitn}{\hat{n}}
-\newcommand{\unitp}{\hat{p}}
-\newcommand{\unitq}{\hat{q}}
-\newcommand{\unitr}{\hat{r}}
-\newcommand{\units}{\hat{s}}
-\newcommand{\unitt}{\hat{t}}
-\newcommand{\unitu}{\hat{u}}
-\newcommand{\unitv}{\hat{v}}
-\newcommand{\unitw}{\hat{w}}
-\newcommand{\unitx}{\hat{x}}
-\newcommand{\unity}{\hat{y}}
-\newcommand{\unitz}{\hat{z}}
-\newcommand{\unitphi}{\hat{\phi}}
-\newcommand{\unitrho}{\hat{\rho}}
-\newcommand{\unittheta}{\hat{\theta}}
-\newcommand{\unitomega}{\hat{\omega}}
+\ifthenelse{\boolean{pboldvectors}}%
+ {\newcommand{\unitvec}[1]{\hat{\vec{#1}}}}%
+ {\newcommand{\unitvec}[1]{\hat{#1}}}
 %    \end{macrocode}
-% This turns any letter into a unit vector.
+% And these are a bunch of predefined unit vectors. Note that |\unitl| now
+% uses a regular lowercase $l$, rather than the scripe $\ell$ as in previous
+% versions. The new command |\unitell| will give you a unit $\ell$.
 %    \begin{macrocode}
-\newcommand{\unitvec}[1]{\hat{#1}}
+\newcommand{\unitd}{\unitvec{d}}
+\newcommand{\unite}{\unitvec{e}}
+\newcommand{\uniti}{\unitvec{\imath}}
+\newcommand{\unitj}{\unitvec{\jmath}}
+\newcommand{\unitk}{\unitvec{k}}
+\newcommand{\unitl}{\unitvec{l}}
+\newcommand{\unitell}{\unitvec{\ell}}
+\newcommand{\unitn}{\unitvec{n}}
+\newcommand{\unitp}{\unitvec{p}}
+\newcommand{\unitq}{\unitvec{q}}
+\newcommand{\unitr}{\unitvec{r}}
+\newcommand{\units}{\unitvec{s}}
+\newcommand{\unitt}{\unitvec{t}}
+\newcommand{\unitu}{\unitvec{u}}
+\newcommand{\unitv}{\unitvec{v}}
+\newcommand{\unitw}{\unitvec{w}}
+\newcommand{\unitx}{\unitvec{x}}
+\newcommand{\unity}{\unitvec{y}}
+\newcommand{\unitz}{\unitvec{z}}
+\newcommand{\unitphi}{\unitvec{\phi}}
+\newcommand{\unitrho}{\unitvec{\rho}}
+\newcommand{\unittheta}{\unitvec{\theta}}
+\newcommand{\unitomega}{\unitvec{\omega}}
 %    \end{macrocode}
 % |\udc| is just an upright (roman) d, and similarly for higher-order differentials.
 %    \begin{macrocode}
