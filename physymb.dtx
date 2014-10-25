@@ -21,7 +21,7 @@
 
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
-%<package>\ProvidesPackage{physymb}[2013/04/02 v0.3 Physics symbol definitions]
+%<package>\ProvidesPackage{physymb}[2014/10/25 v0.3 Physics symbol definitions]
 %
 %<*driver>
 \documentclass{ltxdoc}
@@ -36,7 +36,7 @@
 %</driver>
 % \fi
 
-% \CheckSum{765}
+% \CheckSum{774}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -59,6 +59,7 @@
 % \changes{v0.2}{2011/05/09}{Switched to dotless i and j in unit vectors}
 % \changes{v0.2}{2011/05/09}{Documented changes to |\real| and |\imag|}
 % \changes{v0.3}{2013/04/02}{Fix compatibility issues with mandi}
+% \changes{v0.3}{2014/10/15}{Deprecate package}
 %
 % \GetFileInfo{physymb.sty}
 %
@@ -93,17 +94,26 @@
 % \maketitle
 % \begin{abstract}
 %  The |physymb| package is nothing but a bunch of simple macro definitions that
-%  may be useful for typesetting physics papers.
+%  may be useful for typesetting physics papers. \textbf{This package is obsolete.}
 % \end{abstract}
 %
-% Most of the functionality of |physymb| is provided by importing the |siunitx| and
-% |braket| packages. If you're just looking to write numbers in scientific notation,
-% quantities with units, and/or Dirac notation, I recommend using those packages
-% directly.
+% The functions provided by the |physymb| package are also provided by other
+% packages. You should use these other packages instead of |physymb|:
+% \begin{description}
+%  \item[|commath|] for differentials, derivatives, and norms
+%  \item[|braket|] for Dirac notation
+%  \item[|siunitx|] for units and scientific notation
+%  \item[|mandi|] for inverse trig functions and other assorted functions
+% \end{description}
+% |physymb| also gives bold vectors, which you can get by redefining |\vec|, and
+% the script r from Griffiths' electromagnetism textbook, for which instructions
+% are available on the author's website,
+% \url{http://academic.reed.edu/physics/faculty/griffiths.html}
 %
-% There are a lot of macros in this package, and it typically doesn't take as many
-% lines to explain their meanings as it does to list them all. For that reason, when
-% there are a bunch of similar macros that I explain together, I've usually only listed
+% The contents of the package as of its last version are preserved for backwards
+% compatibility, and are described in the remainder of this document.
+%
+% When there are a bunch of similar macros that I explain together, I've usually only listed
 % one or two in the left margin. In these cases, all the macros are given in the text.
 %
 % \section{Options}
