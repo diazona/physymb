@@ -36,7 +36,7 @@
 %</driver>
 % \fi
 
-% \CheckSum{774}
+% \CheckSum{775}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -711,6 +711,10 @@
 \DeclareOption{arrowvectors}{\setboolean{pboldvectors}{false}}
 \DeclareOption{boldvectors}{\setboolean{pboldvectors}{true}}
 \ProcessOptions\relax
+%    \end{macrocode}
+% This emits a warning that the package is obsolete:
+%    \begin{macrocode}
+\PackageWarning{physymb}{This package is obsolete! See the documentation to learn what you should be using instead.}
 %    \end{macrocode}
 %
 % \subsection{Macro Definitions}
