@@ -36,7 +36,7 @@
 %</driver>
 % \fi
 
-% \CheckSum{775}
+% \CheckSum{739}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -735,6 +735,10 @@
 \DeclareFontShape{T1}{calligra}{m}{n}{<->s*[2.2]callig15}{}
 \newcommand{\scriptr}{\mathcalligra{r}}
 %    \end{macrocode}
+% The |commath| package is used to implement differentials and derivatives.
+%    \begin{macrocode}
+\RequirePackage{commath}
+%    \end{macrocode}
 % Here we load the |braket| package if the corresponding option was passed.
 %    \begin{macrocode}
 \ifthenelse{\boolean{pbraket}}
@@ -810,29 +814,24 @@
 \newcommand{\real}[1]{\realop\{#1\}}
 \newcommand{\imag}[1]{\imagop\{#1\}}
 %    \end{macrocode}
-% The sign and absolute value keywords:
+% The absolute value and norm notations are implemented by |commath| so there
+% is nothing to do for them here.
+%
+% Evaluation at endpoints is also implemented by |commath|, unless |mandi| is loaded
+% in which case we use its implementation of |\evalat|:
 %    \begin{macrocode}
 \@ifpackageloaded{mandi}{
  \ifthenelse{\boolean{poverridemandi}}{%
-  \renewcommand{\abs}[1]{\left\lvert#1\right\rvert}
+  \renewcommand{\evalat}[3]{\eval{#1}_{#2}^{#3}}
  }{}
 }{%
- \DeclareMathOperator{\sgn}{sgn}
- \newcommand{\abs}[1]{\left\lvert#1\right\rvert}
+ \newcommand{\evalat}[3]{\eval{#1}_{#2}^{#3}}
 }
 %    \end{macrocode}
-% Norm of a vector:
+% If |mandi| is loaded, we can use its implementation of |\sgn|.
 %    \begin{macrocode}
-\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
-%    \end{macrocode}
-% Evaluation at endpoints uses |\left.| to get no visible mark on the left side.
-%    \begin{macrocode}
-\@ifpackageloaded{mandi}{
- \ifthenelse{\boolean{poverridemandi}}{%
-  \renewcommand{\evalat}[3]{\left.#1\right|_{#2}^{#3}}
- }{}
-}{%
- \newcommand{\evalat}[3]{\left.#1\right|_{#2}^{#3}}
+\@ifpackageloaded{mandi}{}{%
+ \DeclareMathOperator{\sgn}{sgn}
 }
 %    \end{macrocode}
 % Poisson brackets are just braces
@@ -911,9 +910,9 @@
 %    \end{macrocode}
 % |\udc| is just an upright (roman) d, and similarly for higher-order differentials.
 %    \begin{macrocode}
-\newcommand{\udc}{\mathrm{d}}
-\newcommand{\uddc}{\mathrm{d}^2}
-\newcommand{\udddc}{\mathrm{d}^3}
+\newcommand{\udc}{\dif}
+\newcommand{\uddc}{\dif^2}
+\newcommand{\udddc}{\dif^3}
 %    \end{macrocode}
 % |\pdc| is just |\partial|, defined for similarity with |\udc|.
 %    \begin{macrocode}
@@ -925,9 +924,9 @@
 % out how to do it I'll make the command autodetect the preceding character(s) and
 % figure out whether to add the space or not.
 %    \begin{macrocode}
-\newcommand{\uds}{\,\mathrm{d}}
-\newcommand{\udds}{\,\mathrm{d}^2}
-\newcommand{\uddds}{\,\mathrm{d}^3}
+\newcommand{\uds}{\,\dif}
+\newcommand{\udds}{\,\dif^2}
+\newcommand{\uddds}{\,\dif^3}
 %    \end{macrocode}
 % |\pds| is also defined for similarity as just |\partial| with a space in front,
 % although I'm not sure this one is really useful.
@@ -938,15 +937,14 @@
 %    \end{macrocode}
 % |\ud| typesets a derivative using |\udc|. Similarly for second and third derivatives.
 %    \begin{macrocode}
-\newcommand{\ud}[2]{\frac{\mathrm{d}#1}{\mathrm{d}#2}}
-\newcommand{\udd}[2]{\frac{\mathrm{d}^2#1}{\mathrm{d} #2^2}}
-\newcommand{\uddd}[2]{\frac{\mathrm{d}^3#1}{\mathrm{d} #2^3}}
+\let\ud\od
+\newcommand{\udd}[2]{\od[2]{#1}{#2}}
+\newcommand{\uddd}[2]{\od[3]{#1}{#2}}
 %    \end{macrocode}
-% |\pd| does the same for partial derivatives with |\pdc|.
+% |\pd| (defined in |commath|) does the same for partial derivatives with |\pdc|.
 %    \begin{macrocode}
-\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
-\newcommand{\pdd}[2]{\frac{\partial^2#1}{\partial #2^2}}
-\newcommand{\pddd}[2]{\frac{\partial^3#1}{\partial #2^3}}
+\newcommand{\pdd}[2]{\pd[2]{#1}{#2}}
+\newcommand{\pddd}[2]{\pd[3]{#1}{#2}}
 %    \end{macrocode}
 %
 % All of |\div|, |\grad|, and |\curl| are defined or not as a unit to avoid inconsistency.
