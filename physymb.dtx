@@ -36,7 +36,7 @@
 %</driver>
 % \fi
 
-% \CheckSum{725}
+% \CheckSum{827}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -793,9 +793,26 @@
 %    \begin{macrocode}
 \newcommand{\orderof}[1]{\ensuremath{\mathcal{O}\left(#1\right)}}
 %    \end{macrocode}
-% Now we come to assorted functions and keywords. First the inverse trig functions:
+% Now we come to assorted functions and keywords. First the inverse trig functions.
+% |mandi| doesn't implement these if it detects that physymb is loaded, so we need to
+% define them manually.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pmandi}}{}{%
+\ifthenelse{\boolean{pmandi}}{%
+ \ifthenelse{\isundefined{\asin}}{\DeclareMathOperator{\asin}{\sin^{-1}}}{}
+ \ifthenelse{\isundefined{\acos}}{\DeclareMathOperator{\acos}{\cos^{-1}}}{}
+ \ifthenelse{\isundefined{\atan}}{\DeclareMathOperator{\atan}{\tan^{-1}}}{}
+ \ifthenelse{\isundefined{\asec}}{\DeclareMathOperator{\asec}{\sec^{-1}}}{}
+ \ifthenelse{\isundefined{\acsc}}{\DeclareMathOperator{\acsc}{\csc^{-1}}}{}
+ \ifthenelse{\isundefined{\acot}}{\DeclareMathOperator{\acot}{\cot^{-1}}}{}
+ \ifthenelse{\isundefined{\asech}}{\DeclareMathOperator{\sech}{sech}}{}
+ \ifthenelse{\isundefined{\acsch}}{\DeclareMathOperator{\csch}{csch}}{}
+ \ifthenelse{\isundefined{\asinh}}{\DeclareMathOperator{\asinh}{\sinh^{-1}}}{}
+ \ifthenelse{\isundefined{\acosh}}{\DeclareMathOperator{\acosh}{\cosh^{-1}}}{}
+ \ifthenelse{\isundefined{\atanh}}{\DeclareMathOperator{\atanh}{\tanh^{-1}}}{}
+ \ifthenelse{\isundefined{\asech}}{\DeclareMathOperator{\asech}{\sech^{-1}}}{}
+ \ifthenelse{\isundefined{\acsch}}{\DeclareMathOperator{\acsch}{\csch^{-1}}}{}
+ \ifthenelse{\isundefined{\acoth}}{\DeclareMathOperator{\acoth}{\coth^{-1}}}{}
+}{%
  \newcommand{\asin}{\PackageError{physymb}{inverse trig functions require the mandi package}}
  \newcommand{\acos}{\PackageError{physymb}{inverse trig functions require the mandi package}}
  \newcommand{\atan}{\PackageError{physymb}{inverse trig functions require the mandi package}}
@@ -839,7 +856,7 @@
 % If |mandi| is loaded, we can use its implementation of |\sgn|.
 %    \begin{macrocode}
 \ifthenelse{\boolean{pmandi}}{%
- \DeclareMathOperator{\sgn}{sgn}
+ \ifthenelse{\isundefined{\sgn}}{\DeclareMathOperator{\sgn}{sgn}}{}
 }{%
  \newcommand{\sgn}{\PackageError{physymb}{signum requires the mandi package}}
 }
@@ -956,20 +973,23 @@
 \newcommand{\pddd}[2]{\pd[3]{#1}{#2}}
 %    \end{macrocode}
 %
-% All of |\div|, |\grad|, and |\curl| come from |mandi|.
+% All of |\div|, |\grad|, and |\curl| come from |mandi|. This is another place where
+% |mandi| doesn't implement things if it detects |physymb|, so I use |\providecommand|
+% to make sure the definitions exist.
 %    \begin{macrocode}
 \ifthenelse{\boolean{pmandi}}{
+ \providecommand{\gradient}{\ensuremath{\nabla}}
+ \providecommand{\divergence}{\ensuremath{\nabla\bullet}}
+ \providecommand{\laplacian}{\ensuremath{\msup{\nabla}{2}}}
  \let\grad\gradient
  \let\div\divergence
+ \let\lapl\laplacian
 }{%
  \newcommand{\grad}{\PackageError{physymb}{gradient requires the mandi package}}
  \renewcommand{\div}{\PackageError{physymb}{divergence requires the mandi package}}
  \newcommand{\curl}{\PackageError{physymb}{curl requires the mandi package}}
+ \newcommand{\lapl}{\PackageError{physymb}{laplacian requires the mandi package}}
 }
-%    \end{macrocode}
-% |\lapl| is written without a harpoon since it's a scalar operator
-%    \begin{macrocode}
-\newcommand{\lapl}{\nabla^2}
 %    \end{macrocode}
 % |\conj| just puts a superscript star
 %    \begin{macrocode}
