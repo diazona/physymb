@@ -93,29 +93,38 @@
 %
 % \maketitle
 % \begin{abstract}
-%  The |physymb| package is nothing but a bunch of simple macro definitions that
-%  may be useful for typesetting physics papers. \textbf{This package is obsolete.}
+%  The |physymb| package contains a bunch of simple macro definitions that
+%  may be useful for typesetting physics papers or other things.
+%  \textbf{This package is obsolete.}
+%  All the useful macros are implemented by other packages, which you should
+%  use directly instead of |physymb|.
 % \end{abstract}
 %
-% The functions provided by the |physymb| package are also provided by other
-% packages. You should use these other packages instead of |physymb|:
+% You should use these other packages instead of |physymb|:
 % \begin{description}
-%  \item[|commath|] for differentials, derivatives, and norms
+%  \item[|commath|] for differentials, derivatives, and various sorts of paired
+%   delimiters including absolute value and vector norm
 %  \item[|braket|] for Dirac notation
 %  \item[|siunitx|] for units and scientific notation
 %  \item[|hepnames|] for elementary particles
-%  \item[|mandi|] for inverse trig functions and other assorted functions
+%  \item[|mandi|] for inverse trig functions, signum, unit vectors, vector
+%   calculus including div, grad, and curl, and the Griffiths script r. |mandi|
+%   also provides elementary unit typesetting, but I consider |siunitx| to be
+%   superior for that purpose. It also provides notation for differentials and
+%   derivatives, but the implementations in
+%   |commath| are easier to use.
 % \end{description}
-% |physymb| also gives bold vectors, which you can get by redefining |\vec|, and
-% the script r from Griffiths' electromagnetism textbook, for which instructions
-% are available on the author's website,
-% \url{http://academic.reed.edu/physics/faculty/griffiths.html}
+% The commands in |physymb| are just wrappers around their implementations in
+% these other packages.
 %
-% The contents of the package as of its last version are preserved for backwards
-% compatibility, and are described in the remainder of this document.
+% I will leave |physymb| up on CTAN so old documents can still be compiled.
+% If you find a bug, feel free to send in a report and I will fix it as long as
+% it doesn't break backwards compatibility, but other than bug fixes there will
+% be no further updates to this package.
 %
-% When there are a bunch of similar macros that I explain together, I've usually only listed
-% one or two in the left margin. In these cases, all the macros are given in the text.
+% For the rest of this documentation, when there are a bunch of similar macros
+% that I explain together, I've usually only listed one or two in the left margin.
+% In these cases, all the macros are given in the text.
 %
 % \section{Options}
 %
