@@ -93,14 +93,15 @@
 %
 % \maketitle
 % \begin{abstract}
+%  \textbf{This package is obsolete.}
 %  The |physymb| package contains a bunch of simple macro definitions that
 %  may be useful for typesetting physics papers or other things.
-%  \textbf{This package is obsolete.}
 %  All the useful macros are implemented by other packages, which you should
 %  use directly instead of |physymb|.
 % \end{abstract}
 %
-% You should use these other packages instead of |physymb|:
+% |physymb| macros are primarily wrappers around commands from the following
+% packages, which you should use instead:
 % \begin{description}
 %  \item[|commath|] for differentials, derivatives, and various sorts of paired
 %   delimiters including absolute value and vector norm
@@ -114,13 +115,11 @@
 %   derivatives, but the implementations in
 %   |commath| are easier to use.
 % \end{description}
-% The commands in |physymb| are just wrappers around their implementations in
-% these other packages.
 %
 % I will leave |physymb| up on CTAN so old documents can still be compiled.
-% If you find a bug, feel free to send in a report and I will fix it as long as
-% it doesn't break backwards compatibility, but other than bug fixes there will
-% be no further updates to this package.
+% However, there will be no further updates to this package (unless someone
+% reports a bug and makes a convincing case that ``use other packages'' is not
+% an acceptable workaround).
 %
 % For the rest of this documentation, when there are a bunch of similar macros
 % that I explain together, I've usually only listed one or two in the left margin.
@@ -160,19 +159,21 @@
 % The AMS packages only define inverse trigonometric functions using the ``arc''
 % syntax, i.e. they actually prefix ``arc'' to the name (as in $\arcsin x$).
 % Sometimes you'd rather write them with a superscript $-1$ to save space, so
-% those versions are included here. We have the inverse functions |\asin|,
-% |\acos|, |\atan|, |\asec|, |\acsc|, and |\acot|.
+% those versions are imported from the |mandi| package. We have the inverse
+% functions |\asin|, |\acos|, |\atan|, |\asec|, |\acsc|, and |\acot|.
 %
 % \DescribeMacro{\sech}
 % \DescribeMacro{\cosh}
 % For some reason, the hyperbolic sine and cosine |\sech| and |\cosh| aren't
-% defined in the AMS packages. This fixes that.
+% defined in the AMS packages, but they are defined in |mandi| and those
+% definitions are incorporated here.
 %
 % \DescribeMacro{\asinh}
 % \DescribeMacro{\acosh}
 % Finally, the inverse hyperbolic trig functions written with the superscript
 % $-1$ are defined just as with the regular inverse trig functions. We have
-% |\asinh|, |\acosh|, |\atanh|, |\asech|, |\acsch|, and |\acoth|.
+% |\asinh|, |\acosh|, |\atanh|, |\asech|, |\acsch|, and |\acoth|, again all
+% imported from |mandi|.
 %
 % \subsection{Sets}
 %
@@ -221,12 +222,11 @@
 % \DescribeMacro{\pdd}
 % \DescribeMacro{\pddd}
 % There are variants of these that produce higher-order derivatives; you can add
-% an order by adding another |d|, up to a total of three.
-% If you need something higher than the third derivative, you're on your own, but it's
-% easy to construct it using |\frac| and |\udc| or |\pdc|,
-% \begin{center}
-%  |\frac{\udc^4 y}{\udc x^4}|
-% \end{center}
+% an order by adding another |d|, up to a total of three. These are implemented as
+% wrappers around |\od| and |\pd| from the |commath| package.
+% If you need something higher than the third derivative, you're probably best off
+% using the |commath| macros directly, with their optional argument giving the order
+% of the derivative.
 %
 % \DescribeMacro{\udc}
 % \DescribeMacro{\pdc}
@@ -260,14 +260,12 @@
 % \DescribeMacro{\grad}
 % \DescribeMacro{\curl}
 % |\physymb| defines |\div|, |\grad|, and |\curl|, to represent the
-% divergence, gradient, and curl. These are typeset with the nabla
-% (or ``del'') character, $\nabla$, rather than being written out
-% as words. Naturally, I would love to add an |\allthat| if I can
-% find something good for it to represent.
+% divergence, gradient, and curl, in terms of the corresponding macros
+% from |mandi|.
 %
 % \DescribeMacro{\lapl}
 % There is also a macro for the Laplacian operator (divergence of a
-% gradient), |\lapl|.
+% gradient), |\lapl|, again defined in terms of the macro from |mandi|.
 %
 % \subsection{Complex Analysis}
 %
@@ -301,6 +299,7 @@
 %
 % \DescribeMacro{\abs}
 % The macro |\abs|\marg{value} surrounds its argument with vertical bars.
+% It is simply imported from |mandi|.
 %
 % \subsection{Linear Algebra}
 %
