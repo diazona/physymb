@@ -36,7 +36,7 @@
 %</driver>
 % \fi
 
-% \CheckSum{754}
+% \CheckSum{651}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -112,8 +112,7 @@
 %   calculus including div, grad, and curl, and the Griffiths script r. |mandi|
 %   also provides elementary unit typesetting, but I consider |siunitx| to be
 %   superior for that purpose. It also provides notation for differentials and
-%   derivatives, but the implementations in
-%   |commath| are easier to use.
+%   derivatives, but the implementations in |commath| are probably easier to use.
 % \end{description}
 %
 % I will leave |physymb| up on CTAN so old documents can still be compiled.
@@ -748,10 +747,12 @@
 %    \end{macrocode}
 % |mandi| is the package that includes the script r, $\scriptr$.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pmandi}}{%
- \newcommand{\scriptr}{\scripty{r}}%
-}{%
- \newcommand{\scriptr}{\PackageError{physymb}{script r requires the mandi package}}%
+\AtBeginDocument{
+ \ifthenelse{\isundefined{\scripty}}{%
+  \newcommand{\scriptr}{\PackageError{physymb}{script r requires the mandi package}}%
+ }{%
+  \newcommand{\scriptr}{\scripty{r}}%
+ }
 }
 %    \end{macrocode}
 % The |commath| package is used to implement differentials and derivatives.
@@ -800,43 +801,36 @@
 %    \begin{macrocode}
 \newcommand{\orderof}[1]{\ensuremath{\mathcal{O}\left(#1\right)}}
 %    \end{macrocode}
-% Now we come to assorted functions and keywords. First the inverse trig functions.
-% |mandi| doesn't implement these if it detects that physymb is loaded, so we need to
-% define them manually.
+% Now we come to assorted functions and keywords.
+%
+% First the inverse trig functions. These are defined in the |mandi| package,
+% but for backward compatibility I would like to give an informative error
+% message if anyone tries to use them without loading |mandi|. The solution
+% use here is to defer defining the functions until the end of the preamble,
+% after all packages have been loaded.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pmandi}}{%
- \ifthenelse{\isundefined{\asin}}{\DeclareMathOperator{\asin}{\sin^{-1}}}{}
- \ifthenelse{\isundefined{\acos}}{\DeclareMathOperator{\acos}{\cos^{-1}}}{}
- \ifthenelse{\isundefined{\atan}}{\DeclareMathOperator{\atan}{\tan^{-1}}}{}
- \ifthenelse{\isundefined{\asec}}{\DeclareMathOperator{\asec}{\sec^{-1}}}{}
- \ifthenelse{\isundefined{\acsc}}{\DeclareMathOperator{\acsc}{\csc^{-1}}}{}
- \ifthenelse{\isundefined{\acot}}{\DeclareMathOperator{\acot}{\cot^{-1}}}{}
- \ifthenelse{\isundefined{\asech}}{\DeclareMathOperator{\sech}{sech}}{}
- \ifthenelse{\isundefined{\acsch}}{\DeclareMathOperator{\csch}{csch}}{}
- \ifthenelse{\isundefined{\asinh}}{\DeclareMathOperator{\asinh}{\sinh^{-1}}}{}
- \ifthenelse{\isundefined{\acosh}}{\DeclareMathOperator{\acosh}{\cosh^{-1}}}{}
- \ifthenelse{\isundefined{\atanh}}{\DeclareMathOperator{\atanh}{\tanh^{-1}}}{}
- \ifthenelse{\isundefined{\asech}}{\DeclareMathOperator{\asech}{\sech^{-1}}}{}
- \ifthenelse{\isundefined{\acsch}}{\DeclareMathOperator{\acsch}{\csch^{-1}}}{}
- \ifthenelse{\isundefined{\acoth}}{\DeclareMathOperator{\acoth}{\coth^{-1}}}{}
-}{%
- \newcommand{\asin}{\PackageError{physymb}{inverse trig functions require the mandi package}}
- \newcommand{\acos}{\PackageError{physymb}{inverse trig functions require the mandi package}}
- \newcommand{\atan}{\PackageError{physymb}{inverse trig functions require the mandi package}}
- \newcommand{\asec}{\PackageError{physymb}{inverse trig functions require the mandi package}}
- \newcommand{\acsc}{\PackageError{physymb}{inverse trig functions require the mandi package}}
- \newcommand{\acot}{\PackageError{physymb}{inverse trig functions require the mandi package}}
+\AtBeginDocument{%
 %    \end{macrocode}
-% and hyperbolic trig functions:
+% At this point, if |mandi| has been loaded (or if some other package has
+% defined these commands), the following |\providecommand|s will do nothing.
 %    \begin{macrocode}
- \newcommand{\sech}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
- \newcommand{\csch}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
- \newcommand{\asinh}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
- \newcommand{\acosh}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
- \newcommand{\atanh}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
- \newcommand{\asech}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
- \newcommand{\acsch}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
- \newcommand{\acoth}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
+ \providecommand{\asin}{\PackageError{physymb}{inverse trig functions require the mandi package}}
+ \providecommand{\acos}{\PackageError{physymb}{inverse trig functions require the mandi package}}
+ \providecommand{\atan}{\PackageError{physymb}{inverse trig functions require the mandi package}}
+ \providecommand{\asec}{\PackageError{physymb}{inverse trig functions require the mandi package}}
+ \providecommand{\acsc}{\PackageError{physymb}{inverse trig functions require the mandi package}}
+ \providecommand{\acot}{\PackageError{physymb}{inverse trig functions require the mandi package}}
+%    \end{macrocode}
+% Same for hyperbolic trig functions:
+%    \begin{macrocode}
+ \providecommand{\sech}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
+ \providecommand{\csch}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
+ \providecommand{\asinh}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
+ \providecommand{\acosh}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
+ \providecommand{\atanh}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
+ \providecommand{\asech}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
+ \providecommand{\acsch}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
+ \providecommand{\acoth}{\PackageError{physymb}{hyperbolic trig functions require the mandi package}}
 }
 %    \end{macrocode}
 % Next are some linear algebra keywords.
@@ -850,22 +844,19 @@
 % The absolute value and norm notations are implemented by |commath| so there
 % is nothing to do for them here.
 %
-% Evaluation at endpoints is implemented by either |commath| or |mandi|
+% Evaluation at endpoints is implemented by either |commath| or |mandi|.
+% As with the trig functions, we want to wait until the end of the preamble
+% so that if |mandi| is loaded later, its definition of |\evalat| will remain.
+% Otherwise, we implement it in terms of |commath|'s |\eval|.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pmandi}}{%
- % hack: mandi declines to implement evalat if it detects that physymb is loaded
- % so I use \providecommand to ensure that it is defined one way or another
- \providecommand{\evalat}[3]{\eval{#1}_{#2}^{#3}}
-}{%
- \newcommand{\evalat}[3]{\eval{#1}_{#2}^{#3}}
+\AtBeginDocument{%
+ \providecommand{\evalat}[3]{\eval{#1}_{#2}^{#3}}%
 }
 %    \end{macrocode}
 % If |mandi| is loaded, we can use its implementation of |\sgn|.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pmandi}}{%
- \ifthenelse{\isundefined{\sgn}}{\DeclareMathOperator{\sgn}{sgn}}{}
-}{%
- \newcommand{\sgn}{\PackageError{physymb}{signum requires the mandi package}}
+\AtBeginDocument{%
+ \providecommand{\sgn}{\PackageError{physymb}{signum requires the mandi package}}
 }
 %    \end{macrocode}
 % Poisson brackets are just braces
@@ -908,11 +899,13 @@
 %    \end{macrocode}
 % Now we get to unit vectors. This is just a wrapper for |\dirvect| from |mandi|.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pmandi}}{%
- \newcommand{\unitvec}[1]{\dirvect{#1}}%
-}{%
- \newcommand{\unitvec}{\PackageError{physymb}{unit vectors require the mandi package}}%
-}
+\AtBeginDocument{
+ \ifthenelse{\isundefined{\dirvect}}{%
+  \newcommand{\unitvec}[1]{\PackageError{physymb}{unit vectors require the mandi package}}
+ }{%
+  \newcommand{\unitvec}[1]{\dirvect{#1}}
+ }
+}%
 %    \end{macrocode}
 % And these are a bunch of predefined unit vectors. Note that |\unitl| now
 % uses a regular lowercase $l$, rather than the scripe $\ell$ as in previous
@@ -980,22 +973,20 @@
 \newcommand{\pddd}[2]{\pd[3]{#1}{#2}}
 %    \end{macrocode}
 %
-% All of |\div|, |\grad|, and |\curl| come from |mandi|. This is another place where
-% |mandi| doesn't implement things if it detects |physymb|, so I use |\providecommand|
-% to make sure the definitions exist.
+% All of |\div|, |\grad|, and |\curl| come from |mandi|.
 %    \begin{macrocode}
-\ifthenelse{\boolean{pmandi}}{
- \providecommand{\gradient}{\ensuremath{\nabla}}
- \providecommand{\divergence}{\ensuremath{\nabla\bullet}}
- \providecommand{\laplacian}{\ensuremath{\msup{\nabla}{2}}}
- \let\grad\gradient
- \let\div\divergence
- \let\lapl\laplacian
-}{%
- \newcommand{\grad}{\PackageError{physymb}{gradient requires the mandi package}}
- \renewcommand{\div}{\PackageError{physymb}{divergence requires the mandi package}}
- \newcommand{\curl}{\PackageError{physymb}{curl requires the mandi package}}
- \newcommand{\lapl}{\PackageError{physymb}{laplacian requires the mandi package}}
+\AtBeginDocument{
+ \@ifpackageloaded{mandi}{%
+  \let\grad\gradient
+  \let\div\divergence
+  \let\lapl\laplacian
+ }{%
+  \providecommand{\grad}{\PackageError{physymb}{gradient requires the mandi package}}
+  % use renew instead of provide because \div is defined in plain latex
+  \renewcommand{\div}{\PackageError{physymb}{divergence requires the mandi package}}
+  \providecommand{\curl}{\PackageError{physymb}{curl requires the mandi package}}
+  \providecommand{\lapl}{\PackageError{physymb}{laplacian requires the mandi package}}
+ }
 }
 %    \end{macrocode}
 % |\conj| just puts a superscript star
