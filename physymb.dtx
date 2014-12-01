@@ -100,20 +100,27 @@
 %  use directly instead of |physymb|.
 % \end{abstract}
 %
-% |physymb| macros are primarily wrappers around commands from the following
-% packages, which you should use instead:
+% It has come to my attention that other packages provide much the same functionality
+% as |physymb|, so I am marking the package obsolete. Here are some packages you
+% can use instead of |physymb|:
 % \begin{description}
-%  \item[|commath|] for differentials, derivatives, and various sorts of paired
-%   delimiters including absolute value and vector norm
-%  \item[|braket|] for Dirac notation
-%  \item[|siunitx|] for units and scientific notation
-%  \item[|hepnames|] for elementary particles
-%  \item[|mandi|] for inverse trig functions, signum, unit vectors, vector
+%  \item[|physics|] gives differentials and derivatives, various sorts of paired
+%   delimiters including absolute value and vector norm, vector calculus operators
+%   including div, grad, and curl, inverse trigonometric functions, Dirac notation
+%   and matrix notation
+%  \item[|commath|] gives differentials, derivatives, and various sorts of paired
+%   delimiters
+%  \item[|braket|] gives Dirac notation
+%  \item[|siunitx|] gives units and scientific notation
+%  \item[|hepnames|] gives elementary particles
+%  \item[|mandi|] gives inverse trig functions, signum, unit vectors, vector
 %   calculus including div, grad, and curl, and the Griffiths script r. |mandi|
 %   also provides elementary unit typesetting, but I consider |siunitx| to be
 %   superior for that purpose. It also provides notation for differentials and
-%   derivatives, but the implementations in |commath| are probably easier to use.
+%   derivatives, but the implementations in |commath| or |physics| are probably
+%   easier to use.
 % \end{description}
+% Many macros in |physymb| are now implemented in terms of these other packages.
 %
 % I will leave |physymb| up on CTAN so old documents can still be compiled.
 % However, there will be no further updates to this package (unless someone
