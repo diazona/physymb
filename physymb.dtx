@@ -36,7 +36,7 @@
 %</driver>
 % \fi
 
-% \CheckSum{651}
+% \CheckSum{649}
 %% \CharacterTable
 %%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
 %%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
@@ -742,7 +742,7 @@
 % Load the |mandi| package if requested
 %    \begin{macrocode}
 \ifthenelse{\boolean{pmandi}}{%
- \RequirePackage{mandi}%
+ \RequirePackage{mandi}[2014/12/18]%
 }{}
 %    \end{macrocode}
 % Load the |hepparticles| and |heppennames| package if particles are requested
@@ -804,16 +804,13 @@
 }
 {}
 %    \end{macrocode}
-% |\orderof| uses the calligraphic capital O, $\mathcal{O}$
-%    \begin{macrocode}
-\newcommand{\orderof}[1]{\ensuremath{\mathcal{O}\left(#1\right)}}
-%    \end{macrocode}
+%
 % Now we come to assorted functions and keywords.
 %
 % First the inverse trig functions. These are defined in the |mandi| package,
 % but for backward compatibility I would like to give an informative error
 % message if anyone tries to use them without loading |mandi|. The solution
-% use here is to defer defining the functions until the end of the preamble,
+% used here is to defer defining the functions until the end of the preamble,
 % after all packages have been loaded.
 %    \begin{macrocode}
 \AtBeginDocument{%
@@ -864,6 +861,12 @@
 %    \begin{macrocode}
 \AtBeginDocument{%
  \providecommand{\sgn}{\PackageError{physymb}{signum requires the mandi package}}
+}
+%    \end{macrocode}
+% Same goes for |\orderof|.
+%    \begin{macrocode}
+\AtBeginDocument{
+ \providecommand{\orderof}{\PackageError{physymb}{orderof requires the mandi package}}
 }
 %    \end{macrocode}
 % Poisson brackets are just braces
