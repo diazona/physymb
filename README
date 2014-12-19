@@ -1,12 +1,21 @@
  ========================  physymb  ============================
  Created by David Zaslavsky <diazona@ellipsix.net>
 
-THIS PACKAGE IS OBSOLETE (see documentation for details)
+THIS PACKAGE IS OBSOLETE
 
-The physymb package contains a bunch of assorted macros that may
-be useful to physicists (and perhaps occasionally mathematicians).
+Instead of physymb you should use some or all of these packages:
 
-The package contains four files:
+* braket
+* commath
+* hepnames
+* mandi
+* physics
+* siunitx
+
+For more on what each of these packages provides, see the package's
+documentation and/or the documentation of physymb.
+
+This package contains four files:
 
 * README: This file :)
 * physymb.pdf: The PDF documentation, which details all the macros
